@@ -38,6 +38,14 @@ body {
         &Centering {
             text-align: center;
         }
+
+        &Input {
+            width: 200px;
+        }
+
+        &Submit {
+            display: inline-block;
+        }
     }
 
     &__list {
@@ -46,14 +54,32 @@ body {
 
     &__inputImage {
         text-align: center;
+
+        &Block {
+            width: 250px;
+            display:inline-block;
+        }
     }
 
     &__artwork {
         text-align: center;
+        max-width: 1440px;
+        margin: 50px auto;
 
         &Block {
             position: relative;
             margin: 15px;
+            width: 350px;
+            height: 350px;
+            // object-fit: cover;
+            // max-width:30%;
+            // max-height:100%;
+            display: inline-block;
+
+            el-image {
+                width: 350px;
+                height: 350px;
+            }
         }
 
         &Mask {

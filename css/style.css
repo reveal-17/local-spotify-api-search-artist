@@ -33,6 +33,14 @@ body {
   text-align: center;
 }
 
+.songsSearch__formInput {
+  width: 200px;
+}
+
+.songsSearch__formSubmit {
+  display: inline-block;
+}
+
 .songsSearch__list {
   padding: 50px 0;
 }
@@ -41,13 +49,28 @@ body {
   text-align: center;
 }
 
+.songsSearch__inputImageBlock {
+  width: 250px;
+  display: inline-block;
+}
+
 .songsSearch__artwork {
   text-align: center;
+  max-width: 1440px;
+  margin: 50px auto;
 }
 
 .songsSearch__artworkBlock {
   position: relative;
   margin: 15px;
+  width: 350px;
+  height: 350px;
+  display: inline-block;
+}
+
+.songsSearch__artworkBlock el-image {
+  width: 350px;
+  height: 350px;
 }
 
 .songsSearch__artworkMask {
