@@ -1,0 +1,318 @@
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.songsSearch {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    &__header {
+        padding-bottom: 30px;
+        background-color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        opacity: .8;
+
+        &--contents {
+            width: 70%;
+            margin: auto;
+        }
+    }
+
+    &__logo {
+        margin-top: 30px;
+
+        &--contents {
+            position: relative;
+        }
+
+        &--link {
+            display: inline-block;
+            width: 150px;
+        }
+
+        &Icon {
+            color: #000;
+            font-size: 4em;
+        }
+
+        &Theme {
+            color: #000;
+            font-size: 48px;
+            font-weight: 900;
+            position: absolute;
+            top: 0;
+            left: 75px;
+        }
+    }
+
+    &__nav {
+        line-height: 48px;
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &__title, &__description {
+        text-align: center;
+    }
+
+    &__title {
+        font-size: 56px;
+    }
+
+    &__description {
+        font-size: 32px;
+    }
+
+    &__form {
+        width: 80%;
+        margin: auto;
+        padding-top: 100px;
+
+        &Contents {
+            width: 90%;
+            margin: auto;
+        }
+
+        &Centering {
+            text-align: center;
+        }
+
+        input {
+            font-size: 40px;
+            padding: 40px;
+        }
+
+        &Submit {
+            display: inline-block;
+            position: relative;
+        }
+
+        &Button {
+            padding: 20px;
+            font-size: 40px;
+            margin-top: 32px;
+            border-radius: 50px;
+        }
+    }
+
+    &__background {
+        background-color: #F2F2F2;
+        padding-bottom: 100px;
+    }
+
+    &__alert {
+        .el-alert__icon {
+            font-size: 48px;
+        }
+
+        .el-alert__icon.is-big {
+            width: 48px;
+        }
+
+        .el-alert__title {
+            font-size: 28px;
+        }
+
+        .el-alert__description {
+            font-size: 24px;
+        }
+    }
+
+    &__usage {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        // align-items: center;
+        width: 80%;
+        margin: 100px auto;
+    }
+
+    &__cardWrapper {
+        margin-top: 96px;
+    }
+
+    &__card {
+
+        &Info {
+            padding: 32px;
+        }
+
+        &Title {
+            font-weight: bold;
+            color: #1FB954;
+            font-size: 40px;
+        }
+
+        &Description {
+            font-size: 28px;
+            line-height: 56px;
+            color: #999;
+        }
+
+        &Bottom {
+            margin-top: 13px;
+            line-height: 24px;
+        }
+
+        &Image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        &Clearfix:before,
+        &Clearfix:after {
+            display: table;
+            content: "";
+        }
+
+        &Clearfix:after {
+            clear: both
+        }
+    }
+
+    &__list {
+        padding: 50px 0;
+    }
+
+    &__inputImage {
+        text-align: center;
+
+        &Block {
+            width: 500px;
+            height: 500px;
+            display:inline-block;
+            position: relative;
+
+            el-image {
+                width: 500px;
+                height: 500px;
+            }
+        }
+
+        &Mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            background-color: rgba(0,0,0,0.6);
+            transition:	all 0.2s ease;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__artwork {
+        text-align: center;
+        max-width: 1440px;
+        margin: 50px auto;
+
+        &Block {
+            position: relative;
+            margin: 15px;
+            width: 350px;
+            height: 350px;
+            display: inline-block;
+
+            el-image {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        &Mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            background-color: rgba(0,0,0,0.6);
+            transition:	all 0.2s ease;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &Title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 900;
+            margin-top: 100px;
+
+            a {
+                color: #fff;
+            }
+        }
+
+        &Artist {
+            color: #919496;
+            font-size: 18px;
+            font-weight: 400;
+
+            a {
+                color: #919496;
+            }
+
+            &--inputImage {
+                margin-top: 100px;
+                color: #919496;
+
+                a {
+                    color: #919496;
+                }
+            }
+        }
+
+        &ListenNow {
+            color: #1FB954;
+            font-size: 18px;
+            font-weight: 400;
+
+            a {
+                color: #1FB954;
+            }
+        }
+
+        &Error {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 900;
+            margin-top: 150px;
+
+            &--inputImage {
+                margin-top: 100px;
+                color: #fff;
+            }
+        }
+    }
+
+    &__footer {
+        height: 100px;
+        line-height: 100px;
+        font-size: 40px;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        margin-top: auto;
+
+        a {
+            color: #fff;
+        }
+    }
+}

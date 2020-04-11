@@ -1,10 +1,8 @@
 <?php
+
 function artistSearch($artistName) {
     global $api;
     try {
-        if ($artistName === "") {
-            throw new Exception('エラーが発生しました。');
-        }
         $artistInfo = $api->search($artistName, 'artist', array('limit' => 1));
         if (isset($artistInfo->artists->items)) {
             foreach ($artistInfo->artists->items as $data) {
@@ -23,17 +21,13 @@ function artistSearch($artistName) {
             // TODO: エラーメッセージ出す？
         }
     } catch (Exception $e) {
-        echo $e->getMessage();
+        return false;
     }
 }
 
 function relatedArtistSearch($artistId) {
     global $api;
     try {
-        if ($artistName === "") {
-            throw new Exception('エラーが発生しました。');
-        }
-
         $relatedArtist = $api->getArtistRelatedArtists($artistId)->artists;
         $relatedArtistSelect = array();
         $countNum = 6;
@@ -53,17 +47,13 @@ function relatedArtistSearch($artistId) {
         }
         return $relatedArtistSelect;
     } catch (Exception $e) {
-        echo $e->getMessage();
+        return false;
     }
 }
 
 function relatedArtistTopTracks($relatedArtistSelect) {
     global $api;
     try {
-        if ($artistName === "" || $relatedArtistSelect === NULL) {
-            throw new Exception('エラーが発生しました。');
-        }
-
         $topTracksSelect = array();
         foreach ($relatedArtistSelect as $data) {
             $topTracks = $api->getArtistTopTracks($data['id'], array('country' => 'JP'))->tracks;
@@ -83,17 +73,13 @@ function relatedArtistTopTracks($relatedArtistSelect) {
         }
         return $topTracksSelect;
     } catch (Exception $e) {
-        echo $e->getMessage();
+        return false;
     }
 }
 
 function relatedArtistTopAlbum($artistId) {
     global $api;
     try {
-        if ($artistName === "") {
-            throw new Exception('エラーが発生しました。');
-        }
-
         $relatedArtistAlbum = $api->getArtistAlbums($artistId, array('country' => 'JP'))->items;
         // 取得するアルバムは人気があるものとは限らない
         $relatedArtistTopAlbum = array(
@@ -104,6 +90,6 @@ function relatedArtistTopAlbum($artistId) {
         );
         return $relatedArtistTopAlbum;
     } catch (Exception $e) {
-        echo $e->getMessage();
+        return false;
     }
 }

@@ -1,34 +1,37 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // spotify web api 使用
 require('spotify.php');
 
-// 関数読み込み
-require('function.php');
+// 最初のページでは処理を行わない
+if ($_POST['submit'] !== NULL) {
+    // 関数読み込み
+    require('function.php');
 
-// アーティスト情報取得
-// TODO: 空欄はエラーなので空欄のときはアルベムといれておく
-if ($_POST['artistName'] === "")  {
-    $_POST['artistName'] = "アルベム";
+    // アーティスト情報取得
+    // TODO: 空欄はエラーなので空欄のときはアルベムといれておく
+    if ($_POST['artistName'] === "")  {
+        $_POST['artistName'] = "アルベム";
+    }
+
+    // 入力されたものをサニタイズ
+    $artistName = htmlspecialchars($_POST['artistName'], ENT_QUOTES, "UTF-8");
+
+    $artistData = artistSearch($artistName);
+
+    // 関連アーティスト取得
+    $artistId = $artistData['id'];
+    $relatedArtistSelect = relatedArtistSearch($artistId);
+
+    // 関連アーティスト表示件数
+    $countNum = 6;
+    // 関連アーティストのトップトラック取得
+    $topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
+    // アーティストのアルバム取得
+    $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 }
-
-// 入力されたものをサニタイズ
-$artistName = htmlspecialchars($_POST['artistName'], ENT_QUOTES, "UTF-8");
-
-$artistData = artistSearch($artistName);
-
-// 関連アーティスト取得
-$artistId = $artistData['id'];
-$relatedArtistSelect = relatedArtistSearch($artistId);
-
-// 関連アーティスト表示件数
-$countNum = 6;
-// 関連アーティストのトップトラック取得
-$topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
-// アーティストのアルバム取得
-$relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 ?>
 
 <html>
@@ -36,7 +39,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
         <meta charset="utf-8" />
         <!-- import CSS -->
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style_sp.css">
         <!-- fontawesome -->
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     </head>
@@ -72,7 +75,8 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                                 <el-input class="songsSearch__formInput" type="text" name="artistName"
                                     placeholder="アーティスト名を入力" v-model="input"></el-input>
                                 <el-row class="songsSearch__formSubmit">
-                                    <el-button native-type="submit" icon="el-icon-search" circle name="submit"></el-button>
+                                <el-button native-type="submit" type="success"
+                                    icon="el-icon-search" name="submit" class="songsSearch__formButton">検索</el-button>
                                 </el-row>
                             </form>
                         </div>
@@ -81,35 +85,34 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 
                 <?php if ($_POST['submit'] === NULL): ?>
                 <el-row class="songsSearch__usage">
-                    <el-col :span="8" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 1 : 0">
-                        <el-card :body-style="{ padding: '0px' }">
-
+                    <el-col v-for="(o, index) in 3" :key="o">
+                        <el-card  class="songsSearch__cardWrapper" :body-style="{ padding: '0px' }">
                             <div class="songsSearch__card" v-if="index === 0">
                                 <img src="img/introduction1.jpg" class="songsSearch__cardImage">
-                                <div style="padding: 14px;">
+                                <div class="songsSearch__cardInfo">
                                     <span class="songsSearch__cardTitle">「好き」を増やそう</span>
                                     <div class="songsSearch__cardBottom songsSearch__cardClearfix">
-                                        <time class="songsSearch__cardDescription">Songsを使えば、あなたの「好き」がもっと広がる。</time>
+                                        <div class="songsSearch__cardDescription">Songsを使えば、あなたの「好き」がもっと広がる。</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="songsSearch__card" v-if="index === 1">
                                 <img src="img/introduction2.jpg" class="songsSearch__cardImage">
-                                <div style="padding: 14px;">
+                                <div class="songsSearch__cardInfo">
                                     <span class="songsSearch__cardTitle">アーティスト名を入力するだけ。</span>
                                     <div class="songsSearch__cardBottom songsSearch__cardClearfix">
-                                        <time class="songsSearch__cardDescription">関連するアーティストを自動で表示します。</time>
+                                        <div class="songsSearch__cardDescription">関連するアーティストを自動で表示します。</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="songsSearch__card" v-if="index === 2">
                                 <img src="img/introduction3.jpg" class="songsSearch__cardImage">
-                                <div style="padding: 14px;">
+                                <div class="songsSearch__cardInfo">
                                     <span class="songsSearch__cardTitle">「好き」を見つけよう。</span>
                                     <div class="songsSearch__cardBottom songsSearch__cardClearfix">
-                                        <time class="songsSearch__cardDescription">検索結果から、すぐにSpotifyの再生画面へ。</time>
+                                        <div class="songsSearch__cardDescription">検索結果から、すぐにSpotifyの再生画面へ。</div>
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +124,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 <!-- 検索してもヒットしない＆＆検索ボタンを押している -->
                 <?php if ($artistData === NULL && $_POST['submit'] === ""): ?>
                 <el-alert
+                class="songsSearch__alert"
                 title="アーティストが見つかりませんでした。"
                 type="error"
                 center
@@ -141,9 +145,9 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                     <div class="songsSearch__inputImage">
                         <div class="songsSearch__inputImageBlock">
                             <?php if (empty($artistData["image"])): ?>
-                            <el-image style="width: 250px; height: 250px;"></el-image>
+                            <el-image></el-image>
                             <?php else: ?>
-                            <el-image style="width: 250px; height: 250px;" src="<?php echo $artistData["image"]; ?>"></el-image>
+                            <el-image src="<?php echo $artistData["image"]; ?>"></el-image>
                             <?php endif; ?>
 
                             <?php if (empty($artistData["artist_name"])): ?>
@@ -176,19 +180,9 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 
                         <?php else: ?>
                         <div class="songsSearch__artworkBlock">
-                            <el-image src="<?php echo $topTracksSelect[$i]['album_image']; ?>"></el-image>
-
-                            <div class="songsSearch__artworkMask">
-                                <h2 class="songsSearch__artworkTitle">
-                                    <a href="<?php echo $topTracksSelect[$i]['album_url']; ?>"><?php echo $topTracksSelect[$i]['album_name']; ?></a>
-                                </h2>
-                                <h3 class="songsSearch__artworkArtist">
-                                    <a href="<?php echo $topTracksSelect[$i]['artist_url']; ?>"><?php echo $topTracksSelect[$i]['artist_name']; ?></a>
-                                </h3>
-                                <div class="songsSearch__artworkListenNow">
-                                    <a href="<?php echo $topTracksSelect[$i]['track_url']; ?>">今すぐ聞く</a>
-                                </div>
-                            </div>
+                            <a href="<?php echo $topTracksSelect[$i]['album_url']; ?>">
+                                <el-image src="<?php echo $topTracksSelect[$i]['album_image']; ?>"></el-image>
+                            </a>
                         </div>
                         <?php endif; ?>
                         <?php endfor; ?>
