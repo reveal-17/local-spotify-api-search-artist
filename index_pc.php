@@ -1,6 +1,6 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // spotify web api 使用
 require('spotify.php');
@@ -36,7 +36,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
         <meta charset="utf-8" />
         <!-- import CSS -->
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style_pc.css">
         <!-- fontawesome -->
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     </head>
