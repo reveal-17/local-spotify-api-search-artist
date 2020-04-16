@@ -6,5 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'SpotifyWebAPI\\' => array($vendorDir . '/jwilsson/spotify-web-api-php/src'),
+    'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
+    'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );
