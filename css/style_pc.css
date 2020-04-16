@@ -67,7 +67,7 @@ a {
   right: 0;
 }
 
-.songsSearch__title, .songsSearch__description {
+.songsSearch__title, .songsSearch__description, .songsSearch__favorite {
   text-align: center;
 }
 
@@ -178,6 +178,10 @@ a {
   opacity: 1;
 }
 
+.songsSearch__favorite {
+  margin-top: 24px;
+}
+
 .songsSearch__artwork {
   text-align: center;
   max-width: 1440px;
@@ -265,6 +269,38 @@ a {
   color: #fff;
 }
 
+.songsSearch__review {
+  margin-top: 40px;
+}
+
+.songsSearch__tab {
+  width: 70%;
+  margin: 80px auto;
+}
+
+.songsSearch__tab .el-tabs__content {
+  padding: 40px;
+}
+
+.songsSearch__tab .el-textarea {
+  width: 50%;
+}
+
+.songsSearch__letsComment, .songsSearch__textarea {
+  text-align: center;
+}
+
+.songsSearch__chatSpace {
+  width: 90%;
+  margin: auto;
+  border: 1px #DCDFE6 solid;
+  padding: 40px;
+}
+
+.songsSearch__textarea {
+  margin-top: 40px;
+}
+
 .songsSearch__footer {
   height: 50px;
   background-color: #000;
@@ -277,4 +313,4 @@ a {
 .songsSearch__footer a {
   color: #fff;
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=style_pc.css.map */

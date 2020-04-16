@@ -160,6 +160,13 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                         </div>
                     </div>
 
+                    <!-- お気に入り登録ボタン -->
+                    <div class="songsSearch__favorite">
+                        <p><?php echo $artistData["artist_name"]; ?>をお気に入りに登録する。</p>
+                            <el-switch v-model="value1" active-color="#13ce66">
+                        </el-switch>
+                    </div>
+
                     <!-- 入力したアーティストの関連アーティストの画像を表示  -->
                     <div class="songsSearch__artwork">
                         <?php for ($i = 0; $i <= $countNum - 1; $i++) : ?>
@@ -196,6 +203,87 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 </div>
                 <?php endif; ?>
 
+                <el-divider></el-divider>
+
+                <div class="songsSearch__review">
+                    <p class="songsSearch__description"><?php echo $artistData["artist_name"]; ?>がみなさんに。</p>
+
+                    <!-- 入力したアーティストの名前表示 -->
+                    <div class="songsSearch__inputImage">
+                        <div class="songsSearch__inputImageBlock">
+                            <?php if (empty($artistData["image"])): ?>
+                            <el-image style="width: 250px; height: 250px;"></el-image>
+                            <?php else: ?>
+                            <el-image style="width: 250px; height: 250px;" src="<?php echo $artistData["image"]; ?>"></el-image>
+                            <?php endif; ?>
+
+                            <?php if (empty($artistData["artist_name"])): ?>
+                            <div class="songsSearch__inputImageMask">
+                                <h2 class="songsSearch__artworkError--inputImage">
+                                    該当なし
+                                </h2>
+                            </div>
+                            <?php else: ?>
+                            <div class="songsSearch__inputImageMask">
+                                <h3 class="songsSearch__artworkArtist--inputImage"><a href="<?php echo $artistData["artist_url"]; ?>"><?php echo $artistData["artist_name"]; ?></a></h3>
+                                <div class="songsSearch__artworkListenNow"><a href="<?php echo $artistData["artist_url"]; ?>">今すぐ聴く</a></div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="songsSearch__tab">
+                        <el-tabs type="border-card">
+                            <el-tab-pane label="みなさんへのコメント">
+                                <p class="songsSearch__letsComment">
+                                    <?php echo $artistData["artist_name"]; ?>について、最初にコメントしてみましょう。
+                                </p>
+
+                                <div class="songsSearch__chatSpace">
+                                    <div>
+                                        hogehoge
+                                    </div>
+                                </div>
+
+                                <div class="songsSearch__textarea">
+                                    <el-input
+                                    type="textarea"
+                                    placeholder="Please input"
+                                    v-model="textarea"
+                                    maxlength="30"
+                                    show-word-limit
+                                    >
+                                    </el-input>
+                                </div>
+                            </el-tab-pane>
+
+                            <el-tab-pane label="あなただけのコメント">
+                                <p class="songsSearch__letsComment">
+                                    <?php echo $artistData["artist_name"]; ?>について、自分だけのコメントを書き残してみましょう。
+                                </p>
+
+                                <div class="songsSearch__chatSpace">
+                                    <div>
+                                        hogehoge
+                                    </div>
+                                </div>
+
+                                <div class="songsSearch__textarea">
+                                    <el-input
+                                    type="textarea"
+                                    placeholder="Please input"
+                                    v-model="textarea"
+                                    maxlength="30"
+                                    show-word-limit
+                                    >
+                                    </el-input>
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </div>
+                </div>
+
+
                 <div class="songsSearch__footer">
                     <a href="https://open.spotify.com/artist/5SffLdCBw5A1pGMiMCCYeb">©Albem</a>
                 </div>
@@ -210,6 +298,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
             el: "#app",
             data: {
                 input: '',
+                value1: true,
             },
         });
         </script>

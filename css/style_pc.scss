@@ -61,7 +61,7 @@ a {
     }
 
 
-    &__title, &__description {
+    &__title, &__description, &__favorite {
         text-align: center;
     }
 
@@ -170,6 +170,10 @@ a {
         }
     }
 
+    &__favorite {
+        margin-top: 24px;
+    }
+
     &__artwork {
         text-align: center;
         max-width: 1440px;
@@ -254,6 +258,39 @@ a {
                 color: #fff;
             }
         }
+    }
+
+    &__review {
+        margin-top: 40px;
+    }
+
+    &__tab {
+        width: 70%;
+        margin: 80px auto;
+
+        .el-tabs__content {
+            padding: 40px;
+        }
+
+        .el-textarea {
+            width: 50%;
+        }
+    }
+
+    &__letsComment, &__textarea {
+        text-align: center;
+    }
+
+    &__chatSpace {
+        width: 90%;
+        margin: auto;
+        border: 1px #DCDFE6 solid;
+        // background-color: rgba($color: #67C23A, $alpha: .5);
+        padding: 40px;
+    }
+
+    &__textarea {
+        margin-top: 40px;
     }
 
     &__footer {

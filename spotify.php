@@ -2,6 +2,7 @@
 
 require_once('vendor/autoload.php');
 
+// 環境変数使用ライブラリ
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
