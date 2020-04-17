@@ -298,7 +298,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
             el: "#app",
             data: {
                 input: '',
-                value1: true,
+                value1: false,
             },
         });
         </script>
