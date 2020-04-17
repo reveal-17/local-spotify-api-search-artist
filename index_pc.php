@@ -299,6 +299,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
             data: {
                 input: '',
                 value1: false,
+                textarea: '',
             },
         });
         </script>
