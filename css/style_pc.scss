@@ -277,7 +277,7 @@ a {
         }
     }
 
-    &__letsComment, &__textarea {
+    &__letsComment, &__reviewForm {
         text-align: center;
     }
 
@@ -289,8 +289,25 @@ a {
         padding: 40px;
     }
 
-    &__textarea {
+    &__reviewForm {
         margin-top: 40px;
+    }
+
+    &__reviewSubmit {
+        margin-top: 8px;
+    }
+
+    &__userImg, &__userComment {
+        float: left;
+    }
+
+    &__userImg {
+        width: 50px;
+        height: 50px;
+    }
+
+    &__userComment {
+        margin: 12px;
     }
 
     &__footer {

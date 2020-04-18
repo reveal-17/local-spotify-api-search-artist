@@ -286,7 +286,7 @@ a {
   width: 50%;
 }
 
-.songsSearch__letsComment, .songsSearch__textarea {
+.songsSearch__letsComment, .songsSearch__reviewForm {
   text-align: center;
 }
 
@@ -297,8 +297,25 @@ a {
   padding: 40px;
 }
 
-.songsSearch__textarea {
+.songsSearch__reviewForm {
   margin-top: 40px;
+}
+
+.songsSearch__reviewSubmit {
+  margin-top: 8px;
+}
+
+.songsSearch__userImg, .songsSearch__userComment {
+  float: left;
+}
+
+.songsSearch__userImg {
+  width: 50px;
+  height: 50px;
+}
+
+.songsSearch__userComment {
+  margin: 12px;
 }
 
 .songsSearch__footer {

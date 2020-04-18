@@ -1,6 +1,6 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 // spotify web api 使用
 require('spotify.php');
@@ -29,6 +29,26 @@ $countNum = 6;
 $topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
 // アーティストのアルバム取得
 $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
+
+
+
+$public_comment = $_POST['public_comment'];
+if ($_POST['public_comment_submit'] === "") {
+    #サブミット押したら
+    try {
+        $dbh = dbConnect();
+        $sql = 'INSERT INTO public_comment (comment) VALUES (:comment)';
+        $data = array(':comment' => $public_comment);
+        $stmt = queryPost($dbh, $sql, $data);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+var_dump($_POST['public_comment_submit']);
+
+
+
 ?>
 
 <html>
@@ -116,6 +136,12 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                         </el-card>
                     </el-col>
                 </el-row>
+
+
+
+
+
+                <!-- 以下別ファイルに記述＆submit後、header関数で別ファイルを表示させるようにする -->
                 <?php else: ?>
                 <!-- 検索してもヒットしない＆＆検索ボタンを押している -->
                 <?php if ($artistData === NULL && $_POST['submit'] === ""): ?>
@@ -203,10 +229,17 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 </div>
                 <?php endif; ?>
 
+
+
+
+
+                <!-- アーティストがヒットしている＆アーティストを検索している -->
+                <?php if ($artistData !== NULL && $_POST['submit'] === ""): ?>
+
                 <el-divider></el-divider>
 
                 <div class="songsSearch__review">
-                    <p class="songsSearch__description"><?php echo $artistData["artist_name"]; ?>がみなさんに。</p>
+                    <p class="songsSearch__description"><?php echo $artistData["artist_name"]; ?>をみなさんに。</p>
 
                     <!-- 入力したアーティストの名前表示 -->
                     <div class="songsSearch__inputImage">
@@ -232,6 +265,9 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                         </div>
                     </div>
 
+
+
+
                     <div class="songsSearch__tab">
                         <el-tabs type="border-card">
                             <el-tab-pane label="みなさんへのコメント">
@@ -240,20 +276,33 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                                 </p>
 
                                 <div class="songsSearch__chatSpace">
-                                    <div>
-                                        hogehoge
+                                    <div class="songsSearch__chatPost">
+                                        <el-image class="songsSearch__userImg"></el-image>
+                                        <p class="songsSearch__userComment">
+                                            hogehoge
+                                            <?php echo $_POST['public_comment']; ?>
+                                        </p>
+                                        <div style="clear:left;"></div>
                                     </div>
                                 </div>
 
-                                <div class="songsSearch__textarea">
-                                    <el-input
-                                    type="textarea"
-                                    placeholder="Please input"
-                                    v-model="textarea"
-                                    maxlength="30"
-                                    show-word-limit
-                                    >
-                                    </el-input>
+                                <div class="songsSearch__reviewForm">
+                                    <form action="index.php" method="post">
+                                        <el-input
+                                        name="public_comment"
+                                        type="textarea"
+                                        placeholder="Please input"
+                                        v-model="textarea"
+                                        maxlength="140"
+                                        show-word-limit
+                                        >
+                                        </el-input>
+
+                                        <el-row class="songsSearch__reviewSubmit">
+                                            <el-button name="public_comment_submit" native-type="submit"
+                                            type="success" icon="el-icon-check" circle plain></el-button>
+                                        </el-row>
+                                    </form>
                                 </div>
                             </el-tab-pane>
 
@@ -263,24 +312,45 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                                 </p>
 
                                 <div class="songsSearch__chatSpace">
-                                    <div>
-                                        hogehoge
+                                    <div class="songsSearch__chatPost">
+                                        <el-image class="songsSearch__userImg"></el-image>
+                                        hugehuge
+                                        <?php echo $_POST['private_comment']; ?>
                                     </div>
                                 </div>
 
-                                <div class="songsSearch__textarea">
-                                    <el-input
-                                    type="textarea"
-                                    placeholder="Please input"
-                                    v-model="textarea"
-                                    maxlength="30"
-                                    show-word-limit
-                                    >
-                                    </el-input>
+                                <div class="songsSearch__reviewForm">
+                                    <form action="index.php" method="post">
+                                        <el-input
+                                        name="private_comment"
+                                        type="textarea"
+                                        placeholder="Please input"
+                                        v-model="textarea"
+                                        maxlength="140"
+                                        show-word-limit
+                                        >
+                                        </el-input>
+
+                                        <el-row class="">
+                                            <el-button name="private_comment_submit" native-type="submit" type="success"
+                                            icon="el-icon-check" circle plain></el-button>
+                                        </el-row>
+                                    </form>
                                 </div>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
+
+
+
+
+
+
+
+
+
+
+                    <?php endif; ?>
                 </div>
 
 
@@ -301,6 +371,9 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 value1: false,
                 textarea: '',
             },
+            methods: {
+
+            }
         });
         </script>
     </body>

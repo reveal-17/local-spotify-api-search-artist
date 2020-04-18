@@ -1,4 +1,33 @@
 <?php
+// -----------------------------------------------------------DB接続-----------------------------------------------------------
+
+function dbConnect() {
+    //DBへの接続準備
+    $dsn = 'mysql:dbname=mysql_database;host=mysql;charset=utf8';
+    $user = 'mysql_user';
+    $password = 'mysql_pw';
+    $options = array(
+    // SQL実行失敗時にはエラーコードのみ設定
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+    // デフォルトフェッチモードを連想配列形式に設定
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    // バッファードクエリを使う(一度に結果セットをすべて取得し、サーバー負荷を軽減)
+    // SELECTで得た結果に対してもrowCountメソッドを使えるようにする
+    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+    );
+    // PDOオブジェクト生成（DBへ接続）
+    $dbh = new PDO($dsn, $user, $password, $options);
+    return $dbh;
+}
+
+function queryPost($dbh,$sql,$data) {
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($data);
+    //プレースホルダに値をセットし、SQL文を実行
+    return $stmt;
+}
+
+// -----------------------------------------------------------spotify web api-----------------------------------------------------------
 
 function artistSearch($artistName) {
     global $api;
