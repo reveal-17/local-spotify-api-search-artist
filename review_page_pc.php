@@ -16,7 +16,7 @@ $artistData['id'] = $_SESSION['artist_id'];
 $artistData['artist_name'] = $_SESSION['artist_name'];
 $artistData['image'] = $_SESSION['image'];
 $artistData['artist_url'] = $_SESSION['artist_url'];
-var_dump($artistData);
+// var_dump($artistData);
 
 // レビューをDBに登録
 registerReview($_POST['public_comment'], $artistData['id'], $artistData['artist_name']);
@@ -47,6 +47,18 @@ try {
 // } else {
 //     echo '<div>エラーメッセージ</div>'
 // }
+
+
+
+$request_body = file_get_contents('php://input'); //送信されてきたbodyを取得(JSON形式）
+$data = json_decode($request_body, true); // デコード
+// json形式
+var_dump($request_body);
+// データ部分だけ抽出出来た！
+var_dump($data['test']); //当たり前だけど連想配列です。
+
+
+
 
 ?>
 
@@ -84,6 +96,14 @@ try {
                                 <div class="songsSearch__artworkListenNow"><a href="<?php echo $artistData["artist_url"]; ?>">今すぐ聴く</a></div>
                             </div>
                             <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- お気に入り登録ボタン -->
+                    <div class="songsSearch__favorite">
+                        <p><?php echo $artistData["artist_name"]; ?>をお気に入りに登録する。</p>
+                        <div class="js-favorite-switch" @click="isFavorite">
+                            <el-switch v-model="value1" active-color="#13ce66"></el-switch>
                         </div>
                     </div>
 
@@ -158,6 +178,27 @@ try {
                 input: '',
                 value1: false,
                 textarea: '',
+            },
+            methods: {
+                isFavorite() {
+                    const favoriteSwitch = document.querySelector('.js-favorite-switch .el-switch');
+                    console.log(favoriteSwitch);
+                    const isActive = favoriteSwitch.className;
+                    console.log(isActive);
+                    if (isActive === "el-switch is-checked") {
+                        axios.post('review_page_pc.php', {
+                            test: 'テストてすと',
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
+                        console.log('チェック入ってます');
+                    } else if (isActive === "el-switch") {
+                        console.log('チェック入ってません');
+                    }
+                }
             },
         });
         </script>

@@ -1,4 +1,7 @@
 <?php
+// switch切り替えパラメータ
+$hoge = true;
+
 // セッションでレビューページに変数渡す
 session_start();
 
@@ -124,7 +127,11 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
             el: "#app",
             data: {
                 input: '',
+                <?php if ($hoge) : ?>
                 value1: false,
+                <?php else : ?>
+                value1: true,
+                <?php endif; ?>
                 textarea: '',
             },
         });

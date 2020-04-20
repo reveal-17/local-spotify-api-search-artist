@@ -31,7 +31,7 @@
                     <!-- お気に入り登録ボタン -->
                     <div class="songsSearch__favorite">
                         <p><?php echo $artistData["artist_name"]; ?>をお気に入りに登録する。</p>
-                        <div>
+                        <div class="js-favorite-switch">
                             <el-switch v-model="value1" active-color="#13ce66"></el-switch>
                         </div>
                     </div>
