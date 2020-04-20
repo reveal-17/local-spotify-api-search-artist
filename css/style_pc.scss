@@ -228,7 +228,8 @@ a {
             }
 
             &--inputImage {
-                margin-top: 100px;
+                margin-top: 72px;
+                margin-bottom: 0;
                 color: #919496;
 
                 a {
@@ -241,9 +242,18 @@ a {
             color: #1FB954;
             font-size: 18px;
             font-weight: 400;
+            margin: 16px;
 
             a {
                 color: #1FB954;
+            }
+        }
+
+        &ReviewNow {
+            margin: 16px;
+
+            a {
+                color: #919496;
             }
         }
 
@@ -297,10 +307,6 @@ a {
         margin-top: 8px;
     }
 
-    &__userImg, &__userComment {
-        float: left;
-    }
-
     &__userImg {
         width: 50px;
         height: 50px;
@@ -308,6 +314,13 @@ a {
 
     &__userComment {
         margin: 12px;
+        word-break:break-all;
+    }
+
+    &__letsFirstComment {
+        margin: 12px;
+        word-break:break-all;
+        text-align: center;
     }
 
     &__footer {

@@ -197,8 +197,12 @@ if ($_POST['submit'] !== NULL) {
         </div>
         <!-- import Vue before Element -->
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <!-- import axios before Element -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- import JavaScript -->
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <!-- import promise(for IE) -->
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
         <script>
         new Vue({
             el: "#app",

@@ -239,7 +239,8 @@ a {
 }
 
 .songsSearch__artworkArtist--inputImage {
-  margin-top: 100px;
+  margin-top: 72px;
+  margin-bottom: 0;
   color: #919496;
 }
 
@@ -251,10 +252,19 @@ a {
   color: #1FB954;
   font-size: 18px;
   font-weight: 400;
+  margin: 16px;
 }
 
 .songsSearch__artworkListenNow a {
   color: #1FB954;
+}
+
+.songsSearch__artworkReviewNow {
+  margin: 16px;
+}
+
+.songsSearch__artworkReviewNow a {
+  color: #919496;
 }
 
 .songsSearch__artworkError {
@@ -305,10 +315,6 @@ a {
   margin-top: 8px;
 }
 
-.songsSearch__userImg, .songsSearch__userComment {
-  float: left;
-}
-
 .songsSearch__userImg {
   width: 50px;
   height: 50px;
@@ -316,6 +322,13 @@ a {
 
 .songsSearch__userComment {
   margin: 12px;
+  word-break: break-all;
+}
+
+.songsSearch__letsFirstComment {
+  margin: 12px;
+  word-break: break-all;
+  text-align: center;
 }
 
 .songsSearch__footer {

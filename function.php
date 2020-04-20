@@ -1,4 +1,5 @@
 <?php
+
 // -----------------------------------------------------------DB接続-----------------------------------------------------------
 
 function dbConnect() {
@@ -40,9 +41,14 @@ function artistSearch($artistName) {
                     'artist_name' => $data->name,
                     // TODO: イメージが複数あるならランダムで表示されるようにしてもいいかも
                     'image' => $data->images[0]->url,
-                    'artist_url' => $data->artist[0]->external_urls,
+                    'artist_url' => $data->external_urls->spotify,
                 );
             }
+            // レビューページで使用するためにセッションに格納
+            $_SESSION['artist_id'] = $artistData['id'];
+            $_SESSION['artist_name'] = $artistData['artist_name'];
+            $_SESSION['image'] = $artistData['image'];
+            $_SESSION['artist_url'] = $artistData['artist_url'];
             return $artistData;
         } else {
             // $artistInfo->artists->items がないとき
@@ -120,5 +126,25 @@ function relatedArtistTopAlbum($artistId) {
         return $relatedArtistTopAlbum;
     } catch (Exception $e) {
         return false;
+    }
+}
+
+function registerReview($comment, $id, $name) {
+    if ($_POST['public_comment_submit'] === "" && $_POST['public_comment'] !== NULL) {
+        try {
+            $dbh = dbConnect();
+            $sql = "INSERT INTO public_comment (comment_contents, musician_id, musician_name, create_time) VALUES (:comment_contents, :musician_id, :musician_name, :create_time)";
+            $data = array(':comment_contents' => $comment, ':musician_id' => $id, ':musician_name' => $name, ':create_time' => date("Y/m/d H:i:s"));
+            $stmt = queryPost($dbh, $sql, $data);
+            if ($stmt) {
+                // 成功したらsuccessメッセージ
+                return true;
+            } else {
+                // 失敗したらerrorメッセージ
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
