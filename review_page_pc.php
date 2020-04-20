@@ -16,6 +16,7 @@ $artistData['id'] = $_SESSION['artist_id'];
 $artistData['artist_name'] = $_SESSION['artist_name'];
 $artistData['image'] = $_SESSION['image'];
 $artistData['artist_url'] = $_SESSION['artist_url'];
+var_dump($artistData);
 
 // レビューをDBに登録
 registerReview($_POST['public_comment'], $artistData['id'], $artistData['artist_name']);
@@ -128,18 +129,18 @@ try {
                                         maxlength="140"
                                         show-word-limit
                                         >
-                                    </el-input>
+                                        </el-input>
 
-                                    <el-row class="songsSearch__reviewSubmit">
-                                        <el-button name="public_comment_submit" native-type="submit"
-                                        type="success" icon="el-icon-check" circle plain></el-button>
-                                    </el-row>
-                                </form>
-                            </div>
-                        </el-tab-pane>
-                    </el-tabs>
+                                        <el-row class="songsSearch__reviewSubmit">
+                                            <el-button name="public_comment_submit" native-type="submit"
+                                            type="success" icon="el-icon-check" circle plain></el-button>
+                                        </el-row>
+                                    </form>
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
 
@@ -147,6 +148,9 @@ try {
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
         <!-- import JavaScript -->
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <!-- import axios before Element -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
         <script>
         new Vue({
             el: "#app",
@@ -155,9 +159,6 @@ try {
                 value1: false,
                 textarea: '',
             },
-            methods: {
-
-            }
         });
         </script>
     </body>

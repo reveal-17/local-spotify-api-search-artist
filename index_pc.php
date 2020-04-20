@@ -41,7 +41,6 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 
     <body>
         <div id="app">
-            {{ info }}
             <div class="songsSearch">
                 <!-- ヘッダー -->
                 <?php require('header_pc.php'); ?>
@@ -93,19 +92,19 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 <?php else : ?>
                 <!------------------------------------------------------------- 検索後のページ ------------------------------------------------------------->
 
-                <!-- 検索してもヒットしない＆＆検索ボタンを押している -->
-                <?php if ($artistData === NULL && $_POST['submit'] === ""): ?>
-                <el-alert
-                    title="アーティストが見つかりませんでした。"
-                    type="error"
-                    center
-                    description="別のアーティストを入力してみましょう。"
-                    show-icon>
-                </el-alert>
-                <?php endif; ?>
+                    <!-- 検索してもヒットしない＆＆検索ボタンを押している -->
+                    <?php if ($artistData === NULL && $_POST['submit'] === ""): ?>
+                    <el-alert
+                        title="アーティストが見つかりませんでした。"
+                        type="error"
+                        center
+                        description="別のアーティストを入力してみましょう。"
+                        show-icon>
+                    </el-alert>
+                    <?php endif; ?>
 
-                <!-- 通常の状態 -->
-                <?php require('search_result_pc.php'); ?>
+                    <!-- 通常の状態 -->
+                    <?php require('search_result_pc.php'); ?>
                 <?php endif; ?>
 
                 <!-- フッター -->
@@ -115,12 +114,11 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 
         <!-- import Vue before Element -->
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
-        <!-- import axios before Element -->
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- import JavaScript -->
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-        <!-- import promise(for IE) -->
-        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+        <!-- import axios before Element -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
         <script>
         new Vue({
             el: "#app",
@@ -128,17 +126,7 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
                 input: '',
                 value1: false,
                 textarea: '',
-                info: null
             },
-            mounted() {
-                axios
-                .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-                .then(response => (this.info = response))
-            },
-            methods: {
-
-            }
-
         });
         </script>
     </body>
