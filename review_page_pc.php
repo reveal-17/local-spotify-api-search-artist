@@ -22,17 +22,10 @@ $artistData['artist_url'] = $_SESSION['artist_url'];
 registerReview($_POST['public_comment'], $artistData['id'], $artistData['artist_name']);
 
 // 今までに投稿されたレビューを表示
-try {
-    $dbh = dbConnect();
-    $sql = "SELECT comment_contents FROM public_comment WHERE musician_id = '${artistData['id']}'";
-    $data = array();
-    $stmt = queryPost($dbh, $sql, $data);
-    $reviewData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // レビューをいくつ表示するか
-    $reviewNum = count($reviewData);
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+$reviewData = getReview($artistData['id']);
+
+// レビューをいくつ表示するか
+$reviewNum = count($reviewData);
 
 // TODO: コメントの多重投稿は、user_idとテキスト内容が一致するデータがある場合、投稿できないようにする。
 // か、そのつど＄＿POST['public_comment']をなくす←こっちのほうがいい？
@@ -48,17 +41,31 @@ try {
 //     echo '<div>エラーメッセージ</div>'
 // }
 
-
-
 $request_body = file_get_contents('php://input'); //送信されてきたbodyを取得(JSON形式）
-$data = json_decode($request_body, true); // デコード
+$axiosData = json_decode($request_body, true); // デコード
 // json形式
-var_dump($request_body);
+// var_dump($request_body);
 // データ部分だけ抽出出来た！
-var_dump($data['test']); //当たり前だけど連想配列です。
+// var_dump($axiosData['is_active']);
 
+// お気に入り登録機能
+registerGood($artistData['id'], $axiosData['is_active']);
 
+// お気に入り解除機能
+deleteGood($artistData['id'], $axiosData['is_active']);
 
+// お気に入り状況取得（外部化で不具合発生のためこのまま）
+try {
+    $dbh = dbConnect();
+    $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
+    $data = array(":musician_id" => "${artistData['id']}");
+    $stmt = queryPost($dbh, $sql, $data);
+    // お気に入りあるかどうか判別（switchの初期値を動的表示）
+    $countResult = $stmt->rowCount();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+// var_dump($countResult);
 
 ?>
 
@@ -127,7 +134,7 @@ var_dump($data['test']); //当たり前だけど連想配列です。
                                     </div>
                                     <?php else: ?>
                                     <!-- レビューが一件以上あるとき、レビューを一覧取得 -->
-                                    <?php for ($i = 0; $i <= $reviewNum; $i++) :?>
+                                    <?php for ($i = 0; $i <= $reviewNum - 1; $i++) :?>
                                     <div class="songsSearch__chatPost">
                                         <el-image class="songsSearch__userImg"></el-image>
                                         <p class="songsSearch__userComment">
@@ -176,7 +183,11 @@ var_dump($data['test']); //当たり前だけど連想配列です。
             el: "#app",
             data: {
                 input: '',
+                <?php if ($countResult) : ?>
+                value1: true,
+                <?php else : ?>
                 value1: false,
+                <?php endif; ?>
                 textarea: '',
             },
             methods: {
@@ -187,7 +198,7 @@ var_dump($data['test']); //当たり前だけど連想配列です。
                     console.log(isActive);
                     if (isActive === "el-switch is-checked") {
                         axios.post('review_page_pc.php', {
-                            test: 'テストてすと',
+                            is_active: true,
                         })
                         .then( (response) => {
                             console.log(response);
@@ -196,6 +207,14 @@ var_dump($data['test']); //当たり前だけど連想配列です。
                         });
                         console.log('チェック入ってます');
                     } else if (isActive === "el-switch") {
+                        axios.post('review_page_pc.php', {
+                            is_active: false,
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
                         console.log('チェック入ってません');
                     }
                 }

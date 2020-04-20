@@ -36,6 +36,29 @@ $topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
 // アーティストのアルバム取得
 $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
 
+$request_body = file_get_contents('php://input'); //送信されてきたbodyを取得(JSON形式）
+$axiosData = json_decode($request_body, true); // デコード
+
+// セッションに格納されたアーティストIDを変数に格納
+$musician_id = $_SESSION['artist_id'];
+
+// お気に入り登録機能
+registerGood($musician_id, $axiosData['is_active']);
+
+// お気に入り解除機能
+deleteGood($musician_id, $axiosData['is_active']);
+
+// お気に入り状況取得（外部化で不具合発生のためこのまま）
+try {
+    $dbh = dbConnect();
+    $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
+    $data = array(":musician_id" => "${musician_id}");
+    $stmt = queryPost($dbh, $sql, $data);
+    // お気に入りあるかどうか判別（switchの初期値を動的表示）
+    $countResult = $stmt->rowCount();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 ?>
 
 <html>
@@ -127,12 +150,41 @@ $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
             el: "#app",
             data: {
                 input: '',
-                <?php if ($hoge) : ?>
-                value1: false,
-                <?php else : ?>
+                <?php if ($countResult) : ?>
                 value1: true,
+                <?php else : ?>
+                value1: false,
                 <?php endif; ?>
                 textarea: '',
+            },
+            methods: {
+                isFavorite() {
+                    const favoriteSwitch = document.querySelector('.js-favorite-switch .el-switch');
+                    console.log(favoriteSwitch);
+                    const isActive = favoriteSwitch.className;
+                    console.log(isActive);
+                    if (isActive === "el-switch is-checked") {
+                        axios.post('index_pc.php', {
+                            is_active: true,
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
+                        console.log('チェック入ってます');
+                    } else if (isActive === "el-switch") {
+                        axios.post('index_pc.php', {
+                            is_active: false,
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
+                        console.log('チェック入ってません');
+                    }
+                }
             },
         });
         </script>

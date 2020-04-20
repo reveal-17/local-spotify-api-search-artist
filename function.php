@@ -138,7 +138,6 @@ function registerReview($comment, $id, $name) {
             $stmt = queryPost($dbh, $sql, $data);
             if ($stmt) {
                 // 成功したらsuccessメッセージ
-                return true;
             } else {
                 // 失敗したらerrorメッセージ
                 return false;
@@ -146,5 +145,82 @@ function registerReview($comment, $id, $name) {
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+}
+
+function getReview($musician_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT comment_contents FROM public_comment WHERE musician_id = '${musician_id}'";
+        $data = array();
+        $stmt = queryPost($dbh, $sql, $data);
+        $reviewData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $reviewData;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function registerGood($musician_id, $is_active) {
+    if ($is_active === true) {
+        try {
+            $dbh = dbConnect();
+            $sql = "SELECT * FROM favorite WHERE musician_id = :musician_id";
+            $data = array(":musician_id" => "${musician_id}");
+            $stmt = queryPost($dbh, $sql, $data);
+            $selectResult = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($selectResult === false) {
+                // DBにお気に入りデータがなかったとき（新たにDBにお気に入りとして登録）
+                $sql = "INSERT INTO favorite (musician_id, is_favorite) VALUE ('${musician_id}', true)";
+                $stmt = queryPost($dbh, $sql, $data);
+                var_dump($sql);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+}
+
+function deleteGood($musician_id, $is_active) {
+    if ($is_active === false) {
+        try {
+            $dbh = dbConnect();
+            $sql = "SELECT * FROM favorite WHERE musician_id = :musician_id";
+            $data = array(":musician_id" => "${musician_id}");
+            $stmt = queryPost($dbh, $sql, $data);
+            $selectResult = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($selectResult !== false) {
+                // お気に入り登録をDBから削除
+                $sql = "DELETE FROM favorite WHERE musician_id = '${musician_id}' AND is_favorite = true";
+                $stmt = queryPost($dbh, $sql, $data);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+}
+
+function getCountGood($musician_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
+        $data = array(":musician_id" => "${musician_id}");
+        $stmt = queryPost($dbh, $sql, $data);
+        $countResult = $stmt->rowCount();
+        return $countResult;
+        var_dump($sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getGood($musician_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
+        $data = array(":musician_id" => "${musician_id}");
+        $stmt = queryPost($dbh, $sql, $data);
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
 }
