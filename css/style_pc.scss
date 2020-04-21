@@ -58,6 +58,11 @@ a {
         position: absolute;
         top: 0;
         right: 0;
+
+        &Menu {
+            text-decoration: none;
+            color: #000;
+        }
     }
 
 
@@ -334,5 +339,62 @@ a {
         a {
             color: #fff;
         }
+    }
+}
+
+
+// ----------------------------------------新規登録----------------------------------------
+
+.songsSearch__signup {
+    padding: 50px;
+    border: 1px solid #DCDFE6;
+    width: 40%;
+    margin: 100px auto;
+
+    .el-form-item__label {
+        width: 200px !important;
+        text-align: left;
+    }
+
+    .el-form-item__content {
+        margin-left: 0 !important;
+    }
+
+    &Label {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    &Submit {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+// ----------------------------------------ログイン----------------------------------------
+
+.songsSearch__login {
+    padding: 50px;
+    border: 1px solid #DCDFE6;
+    width: 40%;
+    margin: 100px auto;
+
+    .el-form-item__label {
+        width: 200px !important;
+        text-align: left;
+    }
+
+    .el-form-item__content {
+        margin-left: 0 !important;
+    }
+
+    &Label {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    &Submit {
+        margin-top: 50px;
+        text-align: center;
     }
 }

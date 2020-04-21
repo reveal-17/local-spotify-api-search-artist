@@ -71,13 +71,13 @@ try {
 
 <html>
     <!-- ヘッドタグ -->
-    <?php require('head_pc.php'); ?>
+    <?php require('components/head_pc.php'); ?>
 
     <body>
         <div id="app">
             <div class="songsSearch">
                 <!-- ヘッダー -->
-                <?php require('header_pc.php'); ?>
+                <?php require('components/header_pc.php'); ?>
 
                 <div class="songsSearch__review">
                     <p class="songsSearch__description"><?php echo $artistData["artist_name"]; ?>をみなさんに。</p>
@@ -168,6 +168,9 @@ try {
                         </el-tabs>
                     </div>
                 </div>
+
+                <!-- フッター -->
+                <?php require('components/footer_pc.php'); ?>
             </div>
         </div>
 

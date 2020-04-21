@@ -10,7 +10,10 @@
                                 </div>
 
                                 <div class="songsSearch__nav">
-                                    テスト版
+                                    <!-- ログイン前後で表示分岐 -->
+                                    <span><a href="signup_pc.php" class="songsSearch__navMenu">新規登録</a></span>
+                                    <el-divider direction="vertical"></el-divider>
+                                    <span><a href="login_pc.php" class="songsSearch__navMenu">ログイン</a></span>
                                 </div>
                             </div>
                         </div>

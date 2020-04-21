@@ -63,16 +63,16 @@ try {
 
 <html>
     <!-- ヘッドタグ -->
-    <?php require('head_pc.php'); ?>
+    <?php require('components/head_pc.php'); ?>
 
     <body>
         <div id="app">
             <div class="songsSearch">
                 <!-- ヘッダー -->
-                <?php require('header_pc.php'); ?>
+                <?php require('components/header_pc.php'); ?>
 
                 <!-- 検索ページ -->
-                <?php require('search_form_pc.php'); ?>
+                <?php require('components/search_form_pc.php'); ?>
 
                 <?php if ($_POST['submit'] === NULL) : ?>
 
@@ -130,11 +130,11 @@ try {
                     <?php endif; ?>
 
                     <!-- 通常の状態 -->
-                    <?php require('search_result_pc.php'); ?>
+                    <?php require('components/search_result_pc.php'); ?>
                 <?php endif; ?>
 
                 <!-- フッター -->
-                <?php require('footer_pc.php'); ?>
+                <?php require('components/footer_pc.php'); ?>
             </div>
         </div>
 
