@@ -1,3 +1,20 @@
+<?php
+// セッションでレビューページに変数渡す
+session_start();
+
+// TODO: 公開前に0にする
+ini_set('display_errors', 1);
+
+// 関数読み込み
+require('function.php');
+
+// spotify web api 使用
+require('spotify.php');
+
+
+
+?>
+
 <html>
     <!-- ヘッドタグ -->
     <?php require('components/head_pc.php'); ?>
@@ -38,7 +55,6 @@
                     </el-form-item>
                     </el-form>
                 </div>
-
 
                 <!-- フッター -->
                 <?php require('components/footer_pc.php'); ?>

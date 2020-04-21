@@ -1,0 +1,185 @@
+<?php
+// セッションでレビューページに変数渡す
+session_start();
+
+// TODO: 公開前に0にする
+ini_set('display_errors', 1);
+
+// 関数読み込み
+require('function.php');
+
+// spotify web api 使用
+require('spotify.php');
+
+// フォーム送信後
+if ($_POST['signup_submit'] === "") {
+    $user_name = $_POST['user_name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    try {
+        $dbh = dbConnect();
+        $sql = "INSERT INTO user (user_name, email, password, create_time) VALUE (:user_name, :email, :password, :create_time)";
+        $data = array(':user_name' => $user_name, ':email' => $email, ':password' => password_hash($password, PASSWORD_DEFAULT), ':create_time' => date("Y/m/d H:i:s"));
+        $stmt = queryPost($dbh, $sql, $data);
+        if ($stmt) {
+            echo '成功';
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+?>
+
+<html>
+    <!-- ヘッドタグ -->
+    <?php require('components/head_pc.php'); ?>
+
+    <body>
+        <div id="app">
+            <div class="songsSearch">
+                <!-- ヘッダー -->
+                <?php require('components/header_pc.php'); ?>
+
+                <div class="songsSearch__signup">
+                    <div class="songsSearch__signupLabel">
+                        新規登録
+                    </div>
+                    <!-- <form action="signup_pc.php" method="post"> -->
+
+                        <!-- ユーザー名 -->
+                        <el-form ref="form" :model="form" label-width="120px" method="post">
+                        <el-form-item label="ユーザー名">
+                            <el-input name="user_name" v-model="form.name"></el-input>
+                        </el-form-item>
+                        </el-form>
+
+                        <!-- email -->
+                        <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="120px" class="demo-dynamic" method="post">
+                        <el-form-item
+                                prop="email"
+                                label="メールアドレス"
+                                :rules="[
+                                { required: true, message: '登録するメールアドレスを入力してください。', trigger: 'blur' },
+                                { type: 'email', message: '正しいメールアドレスを入力してください。', trigger: ['blur', 'change'] }
+                                ]"
+                            >
+                            <el-input name="email" v-model="dynamicValidateForm.email"></el-input>
+                        </el-form-item>
+                        </el-form>
+
+                        <!-- password -->
+                        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" method="post">
+                        <el-form-item label="パスワード" prop="pass" required>
+                            <el-input name="password" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+
+                        <!-- password(retype) -->
+                        <el-form-item label="パスワード（再入力）" prop="checkPass" required>
+                            <el-input name="password_retype" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                        </el-form-item>
+
+                        <!-- submit -->
+                        <el-form-item class="songsSearch__signupSubmit">
+                            <el-button name="signup_submit" native-type="submit" type="primary" @click="submitForm('ruleForm'); submitForm('dynamicValidateForm');">登録</el-button>
+                        </el-form-item>
+                        </el-form>
+                    <!-- </form> -->
+                </div>
+                <!-- フッター -->
+                <?php require('components/footer_pc.php'); ?>
+            </div>
+        </div>
+
+        <!-- import Vue before Element -->
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <!-- import JavaScript -->
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <!-- import axios before Element -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+        new Vue({
+            el: "#app",
+            data() {
+                var validatePass = (rule, value, callback) => {
+                    if (value === '') {
+                    callback(new Error('登録するパスワードを入力してください。'));
+                    return false;
+                    } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                    }
+                };
+                var validatePass2 = (rule, value, callback) => {
+                    if (value === '') {
+                    callback(new Error('登録するパスワードをもう一度入力してください。'));
+                    return false;
+                    } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('同じパスワードを入力してください。'));
+                    return false;
+                    } else {
+                    callback();
+                    }
+                };
+                return {
+                    form: {
+                        name: '',
+                    },
+                    // email
+                    dynamicValidateForm: {
+                    email: ''
+                    },
+                    // password
+                    ruleForm: {
+                        pass: '',
+                        checkPass: '',
+                    },
+                    rules: {
+                        pass: [
+                            { validator: validatePass, trigger: 'blur' }
+                        ],
+                        checkPass: [
+                            { validator: validatePass2, trigger: 'blur' }
+                        ],
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                checkPass(rule, value, callback) {
+                    if (value === '') {
+                    callback(new Error('登録するパスワードを入力してください。'));
+                    } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                    }
+                },
+                checkPassRe(rule, value, callback) {
+                    if (value === '') {
+                    callback(new Error('登録するパスワードをもう一度入力してください。'));
+                    } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('同じパスワードを入力してください。'));
+                    } else {
+                    callback();
+                    }
+                }
+            },
+        });
+        </script>
+    </body>
+</html>

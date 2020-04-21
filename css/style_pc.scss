@@ -365,6 +365,10 @@ a {
         margin-bottom: 50px;
     }
 
+    &Input {
+        margin-top: 50px;
+    }
+
     &Submit {
         margin-top: 50px;
         text-align: center;
@@ -397,4 +401,11 @@ a {
         margin-top: 50px;
         text-align: center;
     }
+}
+
+// ----------------------------------------エラーメッセージ（新規登録・ログイン）----------------------------------------
+
+.area_msg {
+    color: #F56C6C;
+    font-size: 12px;
 }

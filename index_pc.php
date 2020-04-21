@@ -1,10 +1,4 @@
 <?php
-// switch切り替えパラメータ
-$hoge = true;
-
-// セッションでレビューページに変数渡す
-session_start();
-
 // TODO: 公開前に0にする
 ini_set('display_errors', 1);
 
@@ -13,6 +7,8 @@ require('function.php');
 
 // spotify web api 使用
 require('spotify.php');
+
+var_dump($_SESSION);
 
 // アーティスト情報取得
 // TODO: 空欄はエラーなので空欄のときはアルベムといれておく

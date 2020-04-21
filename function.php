@@ -1,4 +1,10 @@
 <?php
+// -----------------------------------------------------------SESSION-----------------------------------------------------------
+session_save_path('/var/tmp');
+ini_set('session.gc_maxlifetime',60*60*24*30);
+ini_set('session.cookie_ifetime',60*60*24*30);
+// セッションでレビューページに変数渡す
+session_start();
 
 // -----------------------------------------------------------DB接続-----------------------------------------------------------
 
@@ -222,5 +228,89 @@ function getGood($musician_id) {
         $stmt = queryPost($dbh, $sql, $data);
     } catch (Exception $e) {
         echo $e->getMessage();
+    }
+}
+
+//    =================================バリデーションチェック==================================
+$error_msg = array();
+
+const MSG1 = "必須項目です";
+const MSG2 = "文字数が長すぎます。";
+const MSG3 = "メールアドレスを正しく入力してください。";
+const MSG4 = "すでに登録されているメールアドレスです。";
+const MSG5 = "半角英数字で入力してください。";
+const MSG6 = "パスワードが一致しません。";
+const MSG7 = "文字数が短すぎます。";
+const MSG8 = "エラーが発生しましあt。時間を置いてから再度お試しください。";
+
+function validRequired($str, $key) {
+    if (empty($str)) {
+        global $error_msg;
+        $error_msg[$key] = MSG1;
+    }
+}
+
+function validMaxLen($str, $key, $max = 255) {
+    if (mb_strlen($str) > $max) {
+        global $error_msg;
+        $error_msg[$key] = MSG2;
+    }
+}
+
+function validEmail($str, $key) {
+    if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/",$str)) {
+        global $error_msg;
+        $error_msg[$key] = MSG3;
+    }
+}
+
+function validEmailDup($email) {
+    try {
+        $dbh = dbConnect();
+        $sql = 'SELECT count(*) FROM user WHERE email = :email';
+        $data = array(':email' => $email);
+        $stmt = queryPost($dbh, $sql, $data);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!empty(array_shift($result))) {
+            global $error_msg;
+            $error_msg['email'] = MSG4;
+        }
+    } catch (Exception $e) {
+        error_log('エラー発生：'.$e->getMessage());
+        $error_msg['common'] = MSG8;
+    }
+}
+
+function validHalf($str, $key) {
+    if (!preg_match("/^[a-zA-Z0-9]+$/", $str)) {
+        global $error_msg;
+        $error_msg[$key] = MSG5;
+    }
+}
+
+function validSame($str1, $str2, $key) {
+    if ($str1 !== $str2) {
+        global $error_msg;
+        $error_msg[$key] = MSG6;
+    }
+}
+
+function validMinLen($str, $key, $min = 3) {
+    if (mb_strlen($str) < $min) {
+        global $error_msg;
+        $error_msg[$key] = MSG7;
+    }
+}
+
+function validPass($str,$key) {
+    validMaxLen($str,$key);
+    validMinLen($str,$key);
+    validHalf($str,$key);
+}
+
+function validDiff($str1,$str2,$key) {
+    if ($str1 === $str2) {
+        global $error_msg;
+        $error_msg[$key] = MSG10;
     }
 }

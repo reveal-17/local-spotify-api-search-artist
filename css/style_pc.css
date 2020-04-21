@@ -370,6 +370,10 @@ a {
   margin-bottom: 50px;
 }
 
+.songsSearch__signupInput {
+  margin-top: 50px;
+}
+
 .songsSearch__signupSubmit {
   margin-top: 50px;
   text-align: center;
@@ -399,5 +403,10 @@ a {
 .songsSearch__loginSubmit {
   margin-top: 50px;
   text-align: center;
+}
+
+.area_msg {
+  color: #F56C6C;
+  font-size: 12px;
 }
 /*# sourceMappingURL=style_pc.css.map */
