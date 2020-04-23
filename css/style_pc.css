@@ -72,6 +72,22 @@ a {
   color: #000;
 }
 
+.songsSearch__nav .el-dropdown {
+  vertical-align: top;
+}
+
+.songsSearch__nav .el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+
+.songsSearch__nav .el-icon-arrow-down {
+  font-size: 12px;
+}
+
+.songsSearch__dropdown a {
+  color: #000;
+}
+
 .songsSearch__title, .songsSearch__description, .songsSearch__favorite {
   text-align: center;
 }
@@ -349,6 +365,28 @@ a {
   color: #fff;
 }
 
+.songsSearch__mypage {
+  margin-top: 50px;
+}
+
+.songsSearch__mypage .songsSearch__boxCard {
+  width: 70%;
+  margin: auto;
+}
+
+.songsSearch__mypage .songsSearch__boxCard .el-card__body {
+  text-align: center;
+}
+
+.songsSearch__mypage .songsSearch__tab {
+  margin-top: 0;
+  min-height: 300px;
+}
+
+.songsSearch__mypage .songsSearch__tabInfo {
+  text-align: center;
+}
+
 .songsSearch__signup {
   padding: 50px;
   border: 1px solid #DCDFE6;
@@ -400,7 +438,73 @@ a {
   margin-bottom: 50px;
 }
 
+.songsSearch__loginInput {
+  margin-top: 50px;
+}
+
 .songsSearch__loginSubmit {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.songsSearch__logout {
+  padding: 50px;
+  border: 1px solid #DCDFE6;
+  width: 40%;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.songsSearch__logout .el-form-item__label {
+  width: 200px !important;
+  text-align: left;
+}
+
+.songsSearch__logout .el-form-item__content {
+  margin-left: 0 !important;
+}
+
+.songsSearch__logoutLabel {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.songsSearch__logoutInput {
+  margin-top: 50px;
+}
+
+.songsSearch__logoutSubmit {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.songsSearch__unsubscribe {
+  padding: 50px;
+  border: 1px solid #DCDFE6;
+  width: 40%;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.songsSearch__unsubscribe .el-form-item__label {
+  width: 200px !important;
+  text-align: left;
+}
+
+.songsSearch__unsubscribe .el-form-item__content {
+  margin-left: 0 !important;
+}
+
+.songsSearch__unsubscribeLabel {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.songsSearch__unsubscribeInput {
+  margin-top: 50px;
+}
+
+.songsSearch__unsubscribeSubmit {
   margin-top: 50px;
   text-align: center;
 }

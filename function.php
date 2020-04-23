@@ -5,7 +5,7 @@ ini_set('session.gc_maxlifetime',60*60*24*30);
 ini_set('session.cookie_ifetime',60*60*24*30);
 // セッションでレビューページに変数渡す
 session_start();
-
+session_regenerate_id();
 // -----------------------------------------------------------DB接続-----------------------------------------------------------
 
 function dbConnect() {
@@ -179,7 +179,6 @@ function registerGood($musician_id, $is_active) {
                 // DBにお気に入りデータがなかったとき（新たにDBにお気に入りとして登録）
                 $sql = "INSERT INTO favorite (musician_id, is_favorite) VALUE ('${musician_id}', true)";
                 $stmt = queryPost($dbh, $sql, $data);
-                var_dump($sql);
             }
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -207,6 +206,7 @@ function deleteGood($musician_id, $is_active) {
 }
 
 function getCountGood($musician_id) {
+    // TODO: limitで表示件数制御
     try {
         $dbh = dbConnect();
         $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
@@ -220,12 +220,27 @@ function getCountGood($musician_id) {
     }
 }
 
-function getGood($musician_id) {
+function getUserGood($user_id) {
     try {
         $dbh = dbConnect();
-        $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
-        $data = array(":musician_id" => "${musician_id}");
+        $sql = "SELECT is_favorite FROM favorite WHERE user_id= :user_id";
+        $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
+        $userGoodData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $userGoodData;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getUserName($user_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT user_name FROM user WHERE user_id = :user_id";
+        $data = array(":user_id" => "${user_id}");
+        $stmt = queryPost($dbh, $sql, $data);
+        $userNameData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $userNameData;
     } catch (Exception $e) {
         echo $e->getMessage();
     }

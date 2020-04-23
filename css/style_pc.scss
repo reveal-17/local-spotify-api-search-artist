@@ -63,8 +63,23 @@ a {
             text-decoration: none;
             color: #000;
         }
+
+        .el-dropdown {
+            vertical-align: top;
+        }
+        .el-dropdown + .el-dropdown {
+            margin-left: 15px;
+        }
+        .el-icon-arrow-down {
+            font-size: 12px;
+        }
     }
 
+    &__dropdown {
+        a {
+            color: #000;
+        }
+    }
 
     &__title, &__description, &__favorite {
         text-align: center;
@@ -342,6 +357,29 @@ a {
     }
 }
 
+// ----------------------------------------マイページ----------------------------------------
+
+.songsSearch__mypage {
+    margin-top: 50px;
+    .songsSearch__boxCard {
+        width: 70%;
+        margin: auto;
+
+        .el-card__body {
+            text-align: center;
+        }
+    }
+
+    .songsSearch__tab {
+        margin-top: 0;
+        min-height: 300px;
+
+        &Info {
+            text-align: center;
+        }
+    }
+}
+
 
 // ----------------------------------------新規登録----------------------------------------
 
@@ -395,6 +433,76 @@ a {
     &Label {
         text-align: center;
         margin-bottom: 50px;
+    }
+
+    &Input {
+        margin-top: 50px;
+    }
+
+    &Submit {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+// ----------------------------------------ログアウト----------------------------------------
+
+.songsSearch__logout {
+    padding: 50px;
+    border: 1px solid #DCDFE6;
+    width: 40%;
+    margin: 100px auto;
+    text-align: center;
+
+    .el-form-item__label {
+        width: 200px !important;
+        text-align: left;
+    }
+
+    .el-form-item__content {
+        margin-left: 0 !important;
+    }
+
+    &Label {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    &Input {
+        margin-top: 50px;
+    }
+
+    &Submit {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+// ----------------------------------------退会----------------------------------------
+
+.songsSearch__unsubscribe {
+    padding: 50px;
+    border: 1px solid #DCDFE6;
+    width: 40%;
+    margin: 100px auto;
+    text-align: center;
+
+    .el-form-item__label {
+        width: 200px !important;
+        text-align: left;
+    }
+
+    .el-form-item__content {
+        margin-left: 0 !important;
+    }
+
+    &Label {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    &Input {
+        margin-top: 50px;
     }
 
     &Submit {

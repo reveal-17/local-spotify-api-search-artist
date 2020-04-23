@@ -21,20 +21,31 @@
                             <?php else: ?>
                             <div class="songsSearch__inputImageMask">
                                 <h3 class="songsSearch__artworkArtist--inputImage"><a href="<?php echo $artistData["artist_url"]; ?>"><?php echo $artistData["artist_name"]; ?></a></h3>
-                                <div class="songsSearch__artworkReviewNow"><a href="review_page_pc.php">レビューする</a></div>
+                                <!-- レビューはログインユーザーのみ -->
+                                <?php if (empty($is_login)) : ?>
+                                <div class="songsSearch__artworkReviewNow">
+                                    <a href="login_pc.php">レビューする</a>
+                                </div>
+                                <?php else :?>
+                                <div class="songsSearch__artworkReviewNow">
+                                    <a href="review_page_pc.php">レビューする</a>
+                                </div>
+                                <?php endif; ?>
                                 <div class="songsSearch__artworkListenNow"><a href="<?php echo $artistData["artist_url"]; ?>">今すぐ聴く</a></div>
                             </div>
                             <?php endif; ?>
                         </div>
                     </div>
 
-                    <!-- お気に入り登録ボタン -->
+                    <?php if (!empty($is_login)) :?>
+                    <!-- お気に入り登録ボタン（ログイン時のみ表示） -->
                     <div class="songsSearch__favorite">
                         <p><?php echo $artistData["artist_name"]; ?>をお気に入りに登録する。</p>
                         <div class="js-favorite-switch" @click="isFavorite">
                             <el-switch v-model="value1" active-color="#13ce66"></el-switch>
                         </div>
                     </div>
+                    <?php endif; ?>
 
                     <!-- 入力したアーティストの関連アーティストの画像を表示  -->
                     <div class="songsSearch__artwork">

@@ -1,7 +1,4 @@
 <?php
-// セッションでレビューページに変数渡す
-session_start();
-
 // TODO: 公開前に0にする
 ini_set('display_errors', 1);
 
@@ -136,13 +133,13 @@ try {
                                     <!-- レビューが一件以上あるとき、レビューを一覧取得 -->
                                     <?php for ($i = 0; $i <= $reviewNum - 1; $i++) :?>
                                     <div class="songsSearch__chatPost">
-                                        <el-image class="songsSearch__userImg"></el-image>
+                                        <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
                                         <p class="songsSearch__userComment">
                                             <?php echo $reviewData[$i]['comment_contents']; ?>
                                         </p>
                                         <el-divider></el-divider>
-                                        <?php endfor; ?>
                                     </div>
+                                    <?php endfor; ?>
                                     <?php endif; ?>
                                 </div>
 
@@ -167,6 +164,7 @@ try {
                             </el-tab-pane>
                         </el-tabs>
                     </div>
+                    <div style="clear: left;"></div>
                 </div>
 
                 <!-- フッター -->
@@ -192,6 +190,7 @@ try {
                 value1: false,
                 <?php endif; ?>
                 textarea: '',
+                circleUrlDefault: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
             },
             methods: {
                 isFavorite() {
