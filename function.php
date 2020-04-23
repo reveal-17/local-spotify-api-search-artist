@@ -135,12 +135,12 @@ function relatedArtistTopAlbum($artistId) {
     }
 }
 
-function registerReview($comment, $id, $name) {
+function registerReview($comment, $id, $name, $musician_url, $img_url, $user_id) {
     if ($_POST['public_comment_submit'] === "" && $_POST['public_comment'] !== NULL) {
         try {
             $dbh = dbConnect();
-            $sql = "INSERT INTO public_comment (comment_contents, musician_id, musician_name, create_time) VALUES (:comment_contents, :musician_id, :musician_name, :create_time)";
-            $data = array(':comment_contents' => $comment, ':musician_id' => $id, ':musician_name' => $name, ':create_time' => date("Y/m/d H:i:s"));
+            $sql = "INSERT INTO public_comment (comment_contents, musician_id, musician_name, musician_url, img_url, user_id, create_time) VALUES (:comment_contents, :musician_id, :musician_name, :musician_url, :img_url, :user_id, :create_time)";
+            $data = array(':comment_contents' => $comment, ':musician_id' => $id, ':musician_name' => $name, ':musician_url' => $musician_url, ':img_url' => $img_url, ':user_id' => $user_id, ':create_time' => date("Y/m/d H:i:s"));
             $stmt = queryPost($dbh, $sql, $data);
             if ($stmt) {
                 // 成功したらsuccessメッセージ
@@ -167,7 +167,7 @@ function getReview($musician_id) {
     }
 }
 
-function registerGood($musician_id, $is_active) {
+function registerGood($musician_id, $musician_name, $musician_url, $img_url, $user_id, $is_active) {
     if ($is_active === true) {
         try {
             $dbh = dbConnect();
@@ -177,7 +177,8 @@ function registerGood($musician_id, $is_active) {
             $selectResult = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($selectResult === false) {
                 // DBにお気に入りデータがなかったとき（新たにDBにお気に入りとして登録）
-                $sql = "INSERT INTO favorite (musician_id, is_favorite) VALUE ('${musician_id}', true)";
+                $sql = "INSERT INTO favorite (musician_id, musician_name, musician_url, img_url, user_id, is_favorite) VALUE (:musician_id, :musician_name, :musician_url, :img_url, :user_id, true)";
+                $data = array(':musician_id' => $musician_id, ':musician_name' => $musician_name, ':musician_url' => $musician_url, ':img_url' => $img_url, ':user_id' => $user_id);
                 $stmt = queryPost($dbh, $sql, $data);
             }
         } catch (Exception $e) {
@@ -223,11 +224,24 @@ function getCountGood($musician_id) {
 function getUserGood($user_id) {
     try {
         $dbh = dbConnect();
-        $sql = "SELECT is_favorite FROM favorite WHERE user_id= :user_id";
+        $sql = "SELECT musician_id, musician_name FROM favorite WHERE user_id= :user_id AND is_favorite = 1";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
         $userGoodData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $userGoodData;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getUserReview($user_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT comment_contents, musician_id, musician_name FROM public_comment WHERE user_id= :user_id";
+        $data = array(":user_id" => "${user_id}");
+        $stmt = queryPost($dbh, $sql, $data);
+        $userReviewData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $userReviewData;
     } catch (Exception $e) {
         echo $e->getMessage();
     }

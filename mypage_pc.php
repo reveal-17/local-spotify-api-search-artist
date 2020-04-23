@@ -8,7 +8,32 @@ require('function.php');
 // spotify web api 使用
 require('spotify.php');
 
+// ユーザーID
+$user_id = $_SESSION['user_id'];
 
+// お気に入り状況取得（外部化で不具合発生のためこのまま）
+try {
+    $dbh = dbConnect();
+    $sql = "SELECT is_favorite FROM favorite WHERE user_id = :user_id";
+    $data = array(":user_id" => "${user_id}");
+    $stmt = queryPost($dbh, $sql, $data);
+    // お気に入りあるかどうか判別（switchの初期値を動的表示）
+    $countResult = $stmt->rowCount();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+// レビュー状況取得
+try {
+    $dbh = dbConnect();
+    $sql = "SELECT comment_id FROM public_comment WHERE user_id = :user_id";
+    $data = array(":user_id" => "${user_id}");
+    $stmt = queryPost($dbh, $sql, $data);
+    // お気に入りあるかどうか判別（switchの初期値を動的表示）
+    $countResult = $stmt->rowCount();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
 ?>
 

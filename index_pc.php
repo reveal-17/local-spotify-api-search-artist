@@ -12,8 +12,8 @@ require('auth_review_page_pc.php');
 $is_login = isLogin();
 var_dump($is_login);
 
-var_dump($_SESSION['user_id']);
-// var_dump($_SESSION);
+// var_dump($_SESSION['user_id']);
+var_dump($_SESSION);
 // var_dump($_SERVER['PHP_SELF']);
 
 // アーティスト情報取得
@@ -44,8 +44,11 @@ $axiosData = json_decode($request_body, true); // デコード
 // セッションに格納されたアーティストIDを変数に格納
 $musician_id = $_SESSION['artist_id'];
 
+// ユーザーID
+$user_id = $_SESSION['user_id'];
+
 // お気に入り登録機能
-registerGood($musician_id, $axiosData['is_active']);
+registerGood($musician_id, $_SESSION['artist_name'], $_SESSION['artist_url'], $_SESSION['image'], $user_id, $axiosData['is_active']);
 
 // お気に入り解除機能
 deleteGood($musician_id, $axiosData['is_active']);

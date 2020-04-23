@@ -15,8 +15,11 @@ $artistData['image'] = $_SESSION['image'];
 $artistData['artist_url'] = $_SESSION['artist_url'];
 // var_dump($artistData);
 
+// ユーザーID
+$user_id = $_SESSION['user_id'];
+
 // レビューをDBに登録
-registerReview($_POST['public_comment'], $artistData['id'], $artistData['artist_name']);
+registerReview($_POST['public_comment'], $artistData['id'], $artistData['artist_name'], $artistData['artist_url'], $artistData['image'], $user_id);
 
 // 今までに投稿されたレビューを表示
 $reviewData = getReview($artistData['id']);
@@ -46,7 +49,7 @@ $axiosData = json_decode($request_body, true); // デコード
 // var_dump($axiosData['is_active']);
 
 // お気に入り登録機能
-registerGood($artistData['id'], $axiosData['is_active']);
+registerGood($artistData['id'], $artistData['artist_name'], $artistData['artist_url'], $artistData['image'], $user_id, $axiosData['is_active']);
 
 // お気に入り解除機能
 deleteGood($artistData['id'], $axiosData['is_active']);
