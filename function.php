@@ -224,7 +224,7 @@ function getCountGood($musician_id) {
 function getUserGood($user_id) {
     try {
         $dbh = dbConnect();
-        $sql = "SELECT musician_id, musician_name FROM favorite WHERE user_id= :user_id AND is_favorite = 1";
+        $sql = "SELECT musician_id, musician_name, musician_url, img_url FROM favorite WHERE user_id= :user_id AND is_favorite = 1";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
         $userGoodData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -237,7 +237,7 @@ function getUserGood($user_id) {
 function getUserReview($user_id) {
     try {
         $dbh = dbConnect();
-        $sql = "SELECT comment_contents, musician_id, musician_name FROM public_comment WHERE user_id= :user_id";
+        $sql = "SELECT comment_contents, musician_id, musician_name, musician_url, img_url FROM public_comment WHERE user_id= :user_id";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
         $userReviewData = $stmt->fetchAll(PDO::FETCH_ASSOC);

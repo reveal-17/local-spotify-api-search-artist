@@ -18,7 +18,7 @@ try {
     $data = array(":user_id" => "${user_id}");
     $stmt = queryPost($dbh, $sql, $data);
     // お気に入りあるかどうか判別（switchの初期値を動的表示）
-    $countResult = $stmt->rowCount();
+    $countGoodResult = $stmt->rowCount();
 } catch (Exception $e) {
     echo $e->getMessage();
 }
@@ -30,10 +30,16 @@ try {
     $data = array(":user_id" => "${user_id}");
     $stmt = queryPost($dbh, $sql, $data);
     // お気に入りあるかどうか判別（switchの初期値を動的表示）
-    $countResult = $stmt->rowCount();
+    $countReviewResult = $stmt->rowCount();
 } catch (Exception $e) {
     echo $e->getMessage();
 }
+
+// ユーザーのいいね一覧
+$userGoodData = getUserGood($user_id);
+
+// ユーザーのレビュー一覧
+$userReviewData = getUserReview($user_id);
 
 ?>
 
@@ -61,10 +67,18 @@ try {
                     <div class="songsSearch__tab">
                         <el-tabs type="border-card">
                             <el-tab-pane label="いいね一覧">
+                                <?php if ($countGoodResult) :?>
+
+                                <?php else : ?>
                                 <p class="songsSearch__tabInfo">現在、いいねはありません。</p>
+                                <?php endif; ?>
                             </el-tab-pane>
                             <el-tab-pane label="レビュー一覧">
+                                <?php if ($countReviewResult) :?>
+
+                                <?php else : ?>
                                 <p class="songsSearch__tabInfo">現在、レビューはありません。</p>
+                                <?php endif; ?>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
