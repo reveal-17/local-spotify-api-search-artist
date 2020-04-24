@@ -69,41 +69,12 @@ try {
     <body>
         <div id="app">
             <div class="songsSearch">
-                <div class="songsSearch__header">
-                    <div class="songsSearch__header--contents">
-                        <div class="songsSearch__logo">
-                            <div class="songsSearch__logo--contents">
-                                <div class="songsSearch__logo--link">
-                                    <a href="index.php">
-                                        <i class="fas fa-clone songsSearch__logoIcon"></i>
-                                        <div class="songsSearch__logoTheme">Songs</div>
-                                    </a>
-                                </div>
 
-                                <div class="songsSearch__nav">
-                                    テスト版
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- ヘッダー -->
+                <?php require('components/header_sp.php'); ?>
 
-                <div class="songsSearch__background">
-                    <div class="songsSearch__form">
-                        <div class="songsSearch__formContents">
-                            <h1 class="songsSearch__title">好きな音楽を見つけよう。</h1>
-                            <p class="songsSearch__description">好きなアーティスト名を入力すると、あなたにピッタリの楽曲が表示されます。</p>
-                            <form class="songsSearch__formCentering" action="index.php" method="post">
-                                <el-input class="songsSearch__formInput" type="text" name="artistName"
-                                    placeholder="アーティスト名を入力" v-model="input"></el-input>
-                                <el-row class="songsSearch__formSubmit">
-                                <el-button native-type="submit" type="success"
-                                    icon="el-icon-search" name="submit" class="songsSearch__formButton">検索</el-button>
-                                </el-row>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <!-- 検索フォーム -->
+                <?php require('components/search_form_sp.php'); ?>
 
                 <?php if ($_POST['submit'] === NULL): ?>
 

@@ -9,20 +9,9 @@
                             <?php if (empty($artistData["image"])): ?>
                             <el-image></el-image>
                             <?php else: ?>
-                            <el-image src="<?php echo $artistData["image"]; ?>"></el-image>
-                            <?php endif; ?>
-
-                            <?php if (empty($artistData["artist_name"])): ?>
-                            <div class="songsSearch__inputImageMask">
-                                <h2 class="songsSearch__artworkError--inputImage">
-                                    該当なし
-                                </h2>
-                            </div>
-                            <?php else: ?>
-                            <div class="songsSearch__inputImageMask">
-                                <h3 class="songsSearch__artworkArtist--inputImage"><a href="<?php echo $artistData["artist_url"]; ?>"><?php echo $artistData["artist_name"]; ?></a></h3>
-                                <div class="songsSearch__artworkListenNow"><a href="<?php echo $artistData["artist_url"]; ?>">今すぐ聴く</a></div>
-                            </div>
+                            <a href="<?php echo $artistData["artist_url"]; ?>">
+                                <el-image src="<?php echo $artistData["image"]; ?>"></el-image>
+                            </a>
                             <?php endif; ?>
                         </div>
                     </div>
