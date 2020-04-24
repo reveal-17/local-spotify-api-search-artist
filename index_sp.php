@@ -1,48 +1,70 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
+
+// 関数読み込み
+require('function.php');
 
 // spotify web api 使用
 require('spotify.php');
 
-// 最初のページでは処理を行わない
-if ($_POST['submit'] !== NULL) {
-    // 関数読み込み
-    require('function.php');
+require('auth_review_page_pc.php');
+$is_login = isLogin();
 
-    // アーティスト情報取得
-    // TODO: 空欄はエラーなので空欄のときはアルベムといれておく
-    if ($_POST['artistName'] === "")  {
-        $_POST['artistName'] = "アルベム";
-    }
+// アーティスト情報取得
+// TODO: 空欄はエラーなので空欄のときはアルベムといれておく
+if ($_POST['artistName'] === "")  {
+    $_POST['artistName'] = "アルベム";
+}
 
-    // 入力されたものをサニタイズ
-    $artistName = htmlspecialchars($_POST['artistName'], ENT_QUOTES, "UTF-8");
+// 入力されたものをサニタイズ
+$artistName = htmlspecialchars($_POST['artistName'], ENT_QUOTES, "UTF-8");
 
-    $artistData = artistSearch($artistName);
+$artistData = artistSearch($artistName);
 
-    // 関連アーティスト取得
-    $artistId = $artistData['id'];
-    $relatedArtistSelect = relatedArtistSearch($artistId);
+// 関連アーティスト取得
+$artistId = $artistData['id'];
+$relatedArtistSelect = relatedArtistSearch($artistId);
 
-    // 関連アーティスト表示件数
-    $countNum = 6;
-    // 関連アーティストのトップトラック取得
-    $topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
-    // アーティストのアルバム取得
-    $relatedArtistAlbum = relatedArtistTopAlbum($artistId);
+// 関連アーティスト表示件数
+$countNum = 6;
+// 関連アーティストのトップトラック取得
+$topTracksSelect = relatedArtistTopTracks($relatedArtistSelect);
+// アーティストのアルバム取得
+$relatedArtistAlbum = relatedArtistTopAlbum($artistId);
+
+$request_body = file_get_contents('php://input'); //送信されてきたbodyを取得(JSON形式）
+$axiosData = json_decode($request_body, true); // デコード
+
+// セッションに格納されたアーティストIDを変数に格納
+$musician_id = $_SESSION['artist_id'];
+
+// ユーザーID
+$user_id = $_SESSION['user_id'];
+
+// お気に入り登録機能
+registerGood($musician_id, $_SESSION['artist_name'], $_SESSION['artist_url'], $_SESSION['image'], $user_id, $axiosData['is_active']);
+
+// お気に入り解除機能
+deleteGood($musician_id, $axiosData['is_active']);
+
+// お気に入り状況取得（外部化で不具合発生のためこのまま）
+try {
+    $dbh = dbConnect();
+    $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
+    $data = array(":musician_id" => "${musician_id}");
+    $stmt = queryPost($dbh, $sql, $data);
+    // お気に入りあるかどうか判別（switchの初期値を動的表示）
+    $countResult = $stmt->rowCount();
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
 ?>
 
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <!-- import CSS -->
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-        <link rel="stylesheet" href="css/style_sp.css">
-        <!-- fontawesome -->
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-    </head>
+
+    <!-- ヘッダー -->
+    <?php require('components/head_sp.php'); ?>
 
     <body>
         <div id="app">
@@ -84,6 +106,9 @@ if ($_POST['submit'] !== NULL) {
                 </div>
 
                 <?php if ($_POST['submit'] === NULL): ?>
+
+                <!------------------------------------------------------------- 検索前のページ ------------------------------------------------------------->
+
                 <el-row class="songsSearch__usage">
                     <el-col v-for="(o, index) in 3" :key="o">
                         <el-card  class="songsSearch__cardWrapper" :body-style="{ padding: '0px' }">
@@ -119,7 +144,9 @@ if ($_POST['submit'] !== NULL) {
                         </el-card>
                     </el-col>
                 </el-row>
-                <?php endif; ?>
+                <?php else: ?>
+
+                <!------------------------------------------------------------- 検索後のページ ------------------------------------------------------------->
 
                 <!-- 検索してもヒットしない＆＆検索ボタンを押している -->
                 <?php if ($artistData === NULL && $_POST['submit'] === ""): ?>
@@ -133,66 +160,12 @@ if ($_POST['submit'] !== NULL) {
                 </el-alert>
                 <?php endif; ?>
 
-                <!-- <?php var_dump($artistData); ?>
-                <?php var_dump($_POST['submit']); ?> -->
+                <!-- 検索結果ページ -->
+                <?php require('components/search_result_sp.php'); ?>
+                <?php endif; ?>
 
-                <?php if ($artistData !== NULL): ?>
-                <div class="songsSearch__list">
-                    <h1 class="songsSearch__title">あなたにおすすめ。</h1>
-                    <p class="songsSearch__description"><?php echo $artistData["artist_name"]; ?>が好きなあなたへ。</p>
-
-                    <!-- 入力したアーティストの名前表示 -->
-                    <div class="songsSearch__inputImage">
-                        <div class="songsSearch__inputImageBlock">
-                            <?php if (empty($artistData["image"])): ?>
-                            <el-image></el-image>
-                            <?php else: ?>
-                            <el-image src="<?php echo $artistData["image"]; ?>"></el-image>
-                            <?php endif; ?>
-
-                            <?php if (empty($artistData["artist_name"])): ?>
-                            <div class="songsSearch__inputImageMask">
-                                <h2 class="songsSearch__artworkError--inputImage">
-                                    該当なし
-                                </h2>
-                            </div>
-                            <?php else: ?>
-                            <div class="songsSearch__inputImageMask">
-                                <h3 class="songsSearch__artworkArtist--inputImage"><a href="<?php echo $artistData["artist_url"]; ?>"><?php echo $artistData["artist_name"]; ?></a></h3>
-                                <div class="songsSearch__artworkListenNow"><a href="<?php echo $artistData["artist_url"]; ?>">今すぐ聴く</a></div>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <!-- 入力したアーティストの関連アーティストの画像を表示  -->
-                    <div class="songsSearch__artwork">
-                        <?php for ($i = 0; $i <= $countNum - 1; $i++) : ?>
-                        <?php if (empty($topTracksSelect[$i]['album_image'])): ?>
-                        <div class="songsSearch__artworkBlock">
-                            <el-image style="width: 350px; height: 350px;"></el-image>
-                            <div class="songsSearch__artworkMask">
-                                <h2 class="songsSearch__artworkError">
-                                    該当なし
-                                </h2>
-                            </div>
-                        </div>
-
-                        <?php else: ?>
-                        <div class="songsSearch__artworkBlock">
-                            <a href="<?php echo $topTracksSelect[$i]['album_url']; ?>">
-                                <el-image src="<?php echo $topTracksSelect[$i]['album_image']; ?>"></el-image>
-                            </a>
-                        </div>
-                        <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
-                    <?php endif; ?>
-                </div>
-
-                <div class="songsSearch__footer">
-                    <a href="https://open.spotify.com/artist/5SffLdCBw5A1pGMiMCCYeb">©Albem</a>
-                </div>
+                <!-- フッター -->
+                <?php require('components/footer_sp.php'); ?>
             </div>
         </div>
         <!-- import Vue before Element -->
@@ -208,6 +181,41 @@ if ($_POST['submit'] !== NULL) {
             el: "#app",
             data: {
                 input: '',
+                <?php if ($countResult) : ?>
+                value1: true,
+                <?php else : ?>
+                value1: false,
+                <?php endif; ?>
+                textarea: '',
+            },
+            methods: {
+                isFavorite() {
+                    const favoriteSwitch = document.querySelector('.js-favorite-switch .el-switch');
+                    console.log(favoriteSwitch);
+                    const isActive = favoriteSwitch.className;
+                    console.log(isActive);
+                    if (isActive === "el-switch is-checked") {
+                        axios.post('index_pc.php', {
+                            is_active: true,
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
+                        console.log('チェック入ってます');
+                    } else if (isActive === "el-switch") {
+                        axios.post('index_pc.php', {
+                            is_active: false,
+                        })
+                        .then( (response) => {
+                            console.log(response);
+                        }).catch( (error) => {
+                            console.log(error);
+                        });
+                        console.log('チェック入ってません');
+                    }
+                }
             },
         });
         </script>

@@ -387,6 +387,20 @@ a {
   text-align: center;
 }
 
+.songsSearch__mypage .songsSearch__goodImg img, .songsSearch__mypage .songsSearch__reviewImg img {
+  width: 50px;
+  height: 50px;
+}
+
+.songsSearch__mypage .songsSearch__userGoodList, .songsSearch__mypage .songsSearch__userReviewList {
+  margin: 12px;
+  word-break: break-all;
+}
+
+.songsSearch__mypage .songsSearch__userGoodList a, .songsSearch__mypage .songsSearch__userReviewList a {
+  color: #000;
+}
+
 .songsSearch__signup {
   padding: 50px;
   border: 1px solid #DCDFE6;

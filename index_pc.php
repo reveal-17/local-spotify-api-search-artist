@@ -10,11 +10,6 @@ require('spotify.php');
 
 require('auth_review_page_pc.php');
 $is_login = isLogin();
-var_dump($is_login);
-
-// var_dump($_SESSION['user_id']);
-var_dump($_SESSION);
-// var_dump($_SERVER['PHP_SELF']);
 
 // アーティスト情報取得
 // TODO: 空欄はエラーなので空欄のときはアルベムといれておく

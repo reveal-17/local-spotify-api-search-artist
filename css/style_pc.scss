@@ -378,6 +378,22 @@ a {
             text-align: center;
         }
     }
+
+    .songsSearch__goodImg, .songsSearch__reviewImg {
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    .songsSearch__userGoodList, .songsSearch__userReviewList {
+        margin: 12px;
+        word-break:break-all;
+
+        a {
+            color: #000;
+        }
+    }
 }
 
 

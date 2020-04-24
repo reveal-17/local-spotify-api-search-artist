@@ -8,17 +8,19 @@ require('function.php');
 // spotify web api 使用
 require('spotify.php');
 
-if (!empty($_POST['unsubscribe_submit'])) {
+$user_id = $_SESSION['user_id'];
+
+if ($_POST['unsubscribe_submit'] === "") {
     try {
         $dbh = dbConnect();
         $sql1 = "UPDATE user SET delete_flg = 1 WHERE user_id = :user_id";
         $sql2 = "UPDATE favorite SET delete_flg = 1 WHERE user_id = :user_id";
-        $data1 = array(':user_id' => $_SESSION['user_id']);
-        $data2 = array(':user_id' => $_SESSION['user_id']);
+        $data1 = array(':user_id' => "${user_id}");
+        $data2 = array(':user_id' => "${user_id}");
         $stmt1 = queryPost($dbh, $sql1, $data1);
         $stmt2 = queryPost($dbh, $sql2, $data2);
 
-        if ($stmt) {
+        if ($stmt1 && $stmt2) {
             // debug('クエリ成功');
             // debug('セッション変数の中身：'.print_r($_SESSION,true));
             session_destroy();
@@ -55,10 +57,8 @@ if (!empty($_POST['unsubscribe_submit'])) {
                         } ?>
                     </div>
                     <form action="unsubscribe_pc.php" method="post">
-                        <el-row>
-                            <el-button type="success" plain class="songsSearch__logutInput"
-                            native-type="submit" name="unsubscribe_submit">退会</el-button>
-                        </el-row>
+                        <el-button type="success" plain class="songsSearch__logutInput"
+                        native-type="submit" name="unsubscribe_submit">退会</el-button>
                     </form>
                 </div>
                 <!-- フッター -->
@@ -76,9 +76,6 @@ if (!empty($_POST['unsubscribe_submit'])) {
         <script>
         new Vue({
             el: "#app",
-            data: {
-
-            },
         });
         </script>
     </body>

@@ -270,7 +270,7 @@ const MSG4 = "すでに登録されているメールアドレスです。";
 const MSG5 = "半角英数字で入力してください。";
 const MSG6 = "パスワードが一致しません。";
 const MSG7 = "文字数が短すぎます。";
-const MSG8 = "エラーが発生しましあt。時間を置いてから再度お試しください。";
+const MSG8 = "エラーが発生しました。時間を置いてから再度お試しください。";
 
 function validRequired($str, $key) {
     if (empty($str)) {

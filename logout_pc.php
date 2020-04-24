@@ -8,7 +8,7 @@ require('function.php');
 // spotify web api 使用
 require('spotify.php');
 
-if (!empty($_POST['logout_submit'])) {
+if ($_POST['logout_submit'] === "") {
     session_destroy();
     header('Location: index.php');
 }
@@ -34,11 +34,9 @@ if (!empty($_POST['logout_submit'])) {
                             echo $error_msg['common'];
                         } ?>
                     </div>
-                    <form>
-                        <el-row>
-                            <el-button type="success" plain class="songsSearch__logutInput"
-                            native-type="submit" name="logout_submit">ログアウト</el-button>
-                        </el-row>
+                    <form action="logout_pc.php" method="post">
+                        <el-button type="success" plain class="songsSearch__logutInput"
+                        native-type="submit" name="logout_submit">ログアウト</el-button>
                     </form>
                 </div>
                 <!-- フッター -->
@@ -56,9 +54,6 @@ if (!empty($_POST['logout_submit'])) {
         <script>
         new Vue({
             el: "#app",
-            data: {
-
-            },
         });
         </script>
     </body>

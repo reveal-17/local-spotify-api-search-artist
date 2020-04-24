@@ -41,6 +41,9 @@ $userGoodData = getUserGood($user_id);
 // ユーザーのレビュー一覧
 $userReviewData = getUserReview($user_id);
 
+// ユーザー名取得
+$userNameData = getUserName($user_id);
+
 ?>
 
 <html>
@@ -59,23 +62,51 @@ $userReviewData = getUserReview($user_id);
                         <el-tooltip content="画像を変更する" placement="top">
                             <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
                         </el-tooltip>
-                        <div class="sub-title">
-                            user_name
-                        </div>
+                        <p>
+                            <?php echo $userNameData[0]['user_name']; ?>
+                        </p>
                     </el-card>
 
                     <div class="songsSearch__tab">
                         <el-tabs type="border-card">
                             <el-tab-pane label="いいね一覧">
                                 <?php if ($countGoodResult) :?>
-
+                                    <div class="songsSearch__goodList">
+                                        <?php for ($i = 0; $i <= $countGoodResult - 1; $i ++) :?>
+                                        <div class="songsSearch__goodImg">
+                                            <img src="<?php echo $userGoodData[$i]['img_url']; ?>" alt="">
+                                        </div>
+                                        <p class="songsSearch__userGoodList">
+                                            <a href="<?php echo $userGoodData[$i]['musician_url']; ?>">
+                                                <?php echo $userGoodData[$i]['musician_name']; ?>
+                                            </a>
+                                        </p>
+                                        <el-divider></el-divider>
+                                        <?php endfor; ?>
+                                    </div>
                                 <?php else : ?>
                                 <p class="songsSearch__tabInfo">現在、いいねはありません。</p>
                                 <?php endif; ?>
                             </el-tab-pane>
+
                             <el-tab-pane label="レビュー一覧">
                                 <?php if ($countReviewResult) :?>
-
+                                <div class="songsSearch__reviewList">
+                                    <?php for ($i = 0; $i <= $countReviewResult - 1; $i ++) :?>
+                                    <div class="songsSearch__reviewImg">
+                                        <img src="<?php echo $userReviewData[$i]['img_url']; ?>" alt="">
+                                    </div>
+                                    <p class="songsSearch__userReviewList">
+                                        <a href="<?php echo $userReviewData[$i]['musician_url']; ?>">
+                                            <?php echo $userReviewData[$i]['musician_name']; ?>
+                                        </a>
+                                    </p>
+                                    <p class="songsSearch__userReviewList">
+                                        <?php echo $userReviewData[$i]['comment_contents']; ?>
+                                    </p>
+                                    <el-divider></el-divider>
+                                    <?php endfor; ?>
+                                </div>
                                 <?php else : ?>
                                 <p class="songsSearch__tabInfo">現在、レビューはありません。</p>
                                 <?php endif; ?>
