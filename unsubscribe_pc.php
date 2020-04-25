@@ -12,6 +12,7 @@ $user_id = $_SESSION['user_id'];
 
 if ($_POST['unsubscribe_submit'] === "") {
     try {
+        global $DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD;
         $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql1 = "UPDATE user SET delete_flg = 1 WHERE user_id = :user_id";
         $sql2 = "UPDATE favorite SET delete_flg = 1 WHERE user_id = :user_id";
