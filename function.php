@@ -16,7 +16,7 @@ $PASSWORD = getenv('PASSWORD');
 
 function dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD) {
     //DBへの接続準備
-    $dsn = "mysql:dbname='${DB_NAME}';host='${HOST_NAME}';charset=utf8";
+    $dsn = "mysql:dbname=${DB_NAME};host=${HOST_NAME};charset=utf8";
     $user = $USER_NAME;
     $password = $PASSWORD;
     $options = array(
