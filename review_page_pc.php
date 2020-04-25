@@ -1,6 +1,6 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // spotify web api 使用
 require('spotify.php');

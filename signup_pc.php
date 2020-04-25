@@ -1,9 +1,6 @@
 <?php
-// セッションでレビューページに変数渡す
-session_start();
-
 // TODO: 公開前に0にする
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // 関数読み込み
 require('function.php');
