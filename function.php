@@ -215,7 +215,6 @@ function getCountGood($musician_id) {
         $stmt = queryPost($dbh, $sql, $data);
         $countResult = $stmt->rowCount();
         return $countResult;
-        var_dump($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
