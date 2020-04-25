@@ -17,8 +17,8 @@ $PASSWORD = getenv('PASSWORD');
 function dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD) {
     //DBへの接続準備
     $dsn = "mysql:dbname='${DB_NAME}';host='${HOST_NAME}';charset=utf8";
-    $user = "${USER_NAME}";
-    $password = "${PASSWORD}";
+    $user = $USER_NAME;
+    $password = $PASSWORD;
     $options = array(
     // SQL実行失敗時にはエラーコードのみ設定
     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
@@ -144,7 +144,7 @@ function relatedArtistTopAlbum($artistId) {
 function registerReview($comment, $id, $name, $musician_url, $img_url, $user_id) {
     if ($_POST['public_comment_submit'] === "" && $_POST['public_comment'] !== NULL) {
         try {
-            $dbh = dbConnect();
+            $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
             $sql = "INSERT INTO public_comment (comment_contents, musician_id, musician_name, musician_url, img_url, user_id, create_time) VALUES (:comment_contents, :musician_id, :musician_name, :musician_url, :img_url, :user_id, :create_time)";
             $data = array(':comment_contents' => $comment, ':musician_id' => $id, ':musician_name' => $name, ':musician_url' => $musician_url, ':img_url' => $img_url, ':user_id' => $user_id, ':create_time' => date("Y/m/d H:i:s"));
             $stmt = queryPost($dbh, $sql, $data);
@@ -162,7 +162,7 @@ function registerReview($comment, $id, $name, $musician_url, $img_url, $user_id)
 
 function getReview($musician_id) {
     try {
-        $dbh = dbConnect();
+        $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = "SELECT comment_contents FROM public_comment WHERE musician_id = '${musician_id}'";
         $data = array();
         $stmt = queryPost($dbh, $sql, $data);
@@ -176,7 +176,7 @@ function getReview($musician_id) {
 function registerGood($musician_id, $musician_name, $musician_url, $img_url, $user_id, $is_active) {
     if ($is_active === true) {
         try {
-            $dbh = dbConnect();
+            $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
             $sql = "SELECT * FROM favorite WHERE musician_id = :musician_id";
             $data = array(":musician_id" => "${musician_id}");
             $stmt = queryPost($dbh, $sql, $data);
@@ -196,7 +196,7 @@ function registerGood($musician_id, $musician_name, $musician_url, $img_url, $us
 function deleteGood($musician_id, $is_active) {
     if ($is_active === false) {
         try {
-            $dbh = dbConnect();
+            $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
             $sql = "SELECT * FROM favorite WHERE musician_id = :musician_id";
             $data = array(":musician_id" => "${musician_id}");
             $stmt = queryPost($dbh, $sql, $data);
@@ -215,7 +215,7 @@ function deleteGood($musician_id, $is_active) {
 function getCountGood($musician_id) {
     // TODO: limitで表示件数制御
     try {
-        $dbh = dbConnect();
+        $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
         $data = array(":musician_id" => "${musician_id}");
         $stmt = queryPost($dbh, $sql, $data);
@@ -228,7 +228,7 @@ function getCountGood($musician_id) {
 
 function getUserGood($user_id) {
     try {
-        $dbh = dbConnect();
+        $dbh =dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = "SELECT musician_id, musician_name, musician_url, img_url FROM favorite WHERE user_id= :user_id AND is_favorite = 1";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
@@ -241,7 +241,7 @@ function getUserGood($user_id) {
 
 function getUserReview($user_id) {
     try {
-        $dbh = dbConnect();
+        $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = "SELECT comment_contents, musician_id, musician_name, musician_url, img_url FROM public_comment WHERE user_id= :user_id";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
@@ -254,7 +254,7 @@ function getUserReview($user_id) {
 
 function getUserName($user_id) {
     try {
-        $dbh = dbConnect();
+        $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = "SELECT user_name FROM user WHERE user_id = :user_id";
         $data = array(":user_id" => "${user_id}");
         $stmt = queryPost($dbh, $sql, $data);
@@ -300,7 +300,7 @@ function validEmail($str, $key) {
 
 function validEmailDup($email) {
     try {
-        $dbh = dbConnect();
+        $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
         $sql = 'SELECT count(*) FROM user WHERE email = :email';
         $data = array(':email' => $email);
         $stmt = queryPost($dbh, $sql, $data);
