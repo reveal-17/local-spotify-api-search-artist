@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1180937f9d28d6d3c6dc131258165b4",
+    "content-hash": "491faecef4a864a074fa720570a73e81",
     "packages": [
         {
             "name": "jwilsson/spotify-web-api-php",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jwilsson/spotify-web-api-php.git",
-                "reference": "e96ed2724495c356af7a416f9ee898463fba4f58"
+                "reference": "be9be84b4b6ebbfeea8072691c83e0f4844c63e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/e96ed2724495c356af7a416f9ee898463fba4f58",
-                "reference": "e96ed2724495c356af7a416f9ee898463fba4f58",
+                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/be9be84b4b6ebbfeea8072691c83e0f4844c63e5",
+                "reference": "be9be84b4b6ebbfeea8072691c83e0f4844c63e5",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
             "keywords": [
                 "spotify"
             ],
-            "time": "2020-03-28T10:53:19+00:00"
+            "time": "2020-04-22T17:13:28+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -236,6 +236,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-mbstring": "*"
+    },
     "platform-dev": []
 }

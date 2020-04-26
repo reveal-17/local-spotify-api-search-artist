@@ -1,5 +1,6 @@
 {
     "require": {
+        "ext-mbstring": "*",
         "jwilsson/spotify-web-api-php": "^3.3",
         "vlucas/phpdotenv": "^4.1"
     }
