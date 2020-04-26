@@ -36,8 +36,8 @@ session_regenerate_id();
 $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 $server = $url["host"];
 $db = substr($url["path"], 1);
-$user = $url["user"];
-$password = $url["pass"];
+$username = $url["user"];
+$dbpassword = $url["pass"];
 
 function dbConnect() {
     //DBへの接続準備
@@ -45,8 +45,8 @@ function dbConnect() {
     $server = $url["host"];
     $db = substr($url["path"], 1);
     $dsn = 'mysql:dbname=' . $db . ';host=' . $server . ';charset=utf8';
-    $user = $url["user"];
-    $password = $url["pass"];
+    $username = $url["user"];
+    $dbpassword = $url["pass"];
     var_dump($server);
     $options = array(
     // SQL実行失敗時にはエラーコードのみ設定
@@ -58,7 +58,7 @@ function dbConnect() {
     PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
     );
     // PDOオブジェクト生成（DBへ接続）
-    $dbh = new PDO($dsn, $user, $password, $options);
+    $dbh = new PDO($dsn, $username, $dbpassword, $options);
     return $dbh;
 }
 
