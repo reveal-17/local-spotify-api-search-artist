@@ -33,12 +33,11 @@ session_regenerate_id();
 //     return $dbh;
 // }
 
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-$server = $url["host"];
-$db = substr($url["path"], 1);
-$user = $url["user"];
-$password = $url["pass"];
-var_dump($server);
+// $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+// $server = $url["host"];
+// $db = substr($url["path"], 1);
+// $user = $url["user"];
+// $password = $url["pass"];
 
 function dbConnect() {
     //DBへの接続準備
@@ -48,6 +47,7 @@ function dbConnect() {
     $dsn = 'mysql:dbname=' . $db . ';host=' . $server . ';charset=utf8';
     $user = $url["user"];
     $password = $url["pass"];
+    var_dump($server);
     $options = array(
     // SQL実行失敗時にはエラーコードのみ設定
     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
