@@ -78,7 +78,10 @@ if (!empty($_POST)) {
 
                 <div class="songsSearch__login">
                     <div class="songsSearch__loginLabel">
-                        ログイン
+                        ログイン<br>
+                        【テスト用ユーザー】<br>
+                        メールアドレス：user@user.com<br>
+                        パスワード：user<br>
                     </div>
                     <div class="area_msg">
                         <?php if (!empty($error_msg['common'])) {
