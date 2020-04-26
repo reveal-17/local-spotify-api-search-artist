@@ -35,9 +35,12 @@ session_regenerate_id();
 
 function dbConnect() {
     //DBへの接続準備
-    $dsn = "mysql:dbname=heroku_ba3e28acf59080a;host=us-cdbr-iron-east-01.cleardb.net;charset=utf8";
-    $user = 'b835f5d4da5e1d';
-    $password = '4f357724';
+    $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+    $server = $url["host"];
+    $db = substr($url["path"], 1);
+    $dsn = 'mysql:dbname=' . $db . ';host=' . $server . ';charset=utf8';
+    $user = $url["user"];
+    $password = $url["pass"];
     $options = array(
     // SQL実行失敗時にはエラーコードのみ設定
     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
