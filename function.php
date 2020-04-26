@@ -47,9 +47,6 @@ function dbConnect() {
     $dsn = 'mysql:dbname=' . $db . ';host=' . $server . ';charset=utf8';
     $username = $url["user"];
     $dbpassword = $url["pass"];
-    var_dump('huge');
-    var_dump($server);
-    var_dump('hoge');
     $options = array(
     // SQL実行失敗時にはエラーコードのみ設定
     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
