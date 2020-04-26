@@ -1,6 +1,6 @@
 <?php
 // TODO: 公開前に0にする
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 // 関数読み込み
 require('function.php');
