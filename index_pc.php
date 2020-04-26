@@ -6,6 +6,7 @@ ini_set('display_errors', 0);
 require('function.php');
 
 dbConnect();
+var_dump($user);
 
 // spotify web api 使用
 require('spotify.php');
