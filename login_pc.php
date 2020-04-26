@@ -33,8 +33,7 @@ if (!empty($_POST)) {
         if (empty($error_msg)) {
             try {
 //            DB接続
-                global $DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD;
-                $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
+                $dbh = dbConnect();
                 $sql = 'SELECT password, user_id  FROM user WHERE email = :email';
                 $data = array(':email' => $email);
                 $stmt = queryPost($dbh, $sql, $data);

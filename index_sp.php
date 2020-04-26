@@ -50,8 +50,7 @@ deleteGood($musician_id, $axiosData['is_active']);
 
 // お気に入り状況取得（外部化で不具合発生のためこのまま）
 try {
-    global $DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD;
-    $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
+    $dbh = dbConnect();
     $sql = "SELECT is_favorite FROM favorite WHERE musician_id = :musician_id";
     $data = array(":musician_id" => "${musician_id}");
     $stmt = queryPost($dbh, $sql, $data);

@@ -41,8 +41,7 @@ if (!empty($_POST)) {
         if (empty($error_msg)) {
             //            DB接続→インサート
             try {
-                global $DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD;
-                $dbh = dbConnect($DB_NAME, $HOST_NAME, $USER_NAME, $PASSWORD);
+                $dbh = dbConnect();
                 $sql = 'INSERT INTO user (user_name, email, password, login_time, create_time) VALUES (:user_name, :email,:password, :login_time, :create_time)';
                 $data = array(':user_name' => $user_name, ':email' => $email, ':password' => password_hash($password, PASSWORD_DEFAULT), ':login_time' => date("Y/m/d H:i:s"), ':create_time' => date("Y/m/d H:i:s"));
                 $stmt = queryPost($dbh, $sql, $data);
