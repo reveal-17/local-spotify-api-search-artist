@@ -5,8 +5,9 @@ ini_set('display_errors', 0);
 // 関数読み込み
 require('function.php');
 
-dbConnect();
 var_dump($user);
+var_dump($db);
+var_dump($server);
 
 // spotify web api 使用
 require('spotify.php');
