@@ -33,6 +33,13 @@ session_regenerate_id();
 //     return $dbh;
 // }
 
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$server = $url["host"];
+$db = substr($url["path"], 1);
+$user = $url["user"];
+$password = $url["pass"];
+var_dump($server);
+
 function dbConnect() {
     //DBへの接続準備
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
