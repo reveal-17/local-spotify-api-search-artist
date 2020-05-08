@@ -26,7 +26,7 @@
                                             <el-dropdown-item class="songsSearch__dropdown"><a href="index_pc.php">トップページ</a></el-dropdown-item>
                                             <el-dropdown-item class="songsSearch__dropdown"><a href="mypage_pc.php">マイページ</a></el-dropdown-item>
                                             <el-dropdown-item class="songsSearch__dropdown"><a href="logout_pc.php">ログアウト</a></el-dropdown-item>
-                                            <!-- <el-dropdown-item class="songsSearch__dropdown"><a href="unsubscribe_pc.php">退会</a></el-dropdown-item> -->
+                                            <el-dropdown-item class="songsSearch__dropdown"><a href="unsubscribe_pc.php">退会</a></el-dropdown-item>
                                         </el-dropdown-menu>
                                     </el-dropdown>
                                     <?php endif; ?>

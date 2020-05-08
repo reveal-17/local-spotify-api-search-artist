@@ -12,11 +12,16 @@ $user_id = $_SESSION['user_id'];
 
 if ($_POST['unsubscribe_submit'] === "") {
     try {
+        global $user_id;
         $dbh = dbConnect();
-        $sql1 = "UPDATE user SET delete_flg = 1 WHERE user_id = :user_id";
-        $sql2 = "UPDATE favorite SET delete_flg = 1 WHERE user_id = :user_id";
-        $data1 = array(':user_id' => "${user_id}");
-        $data2 = array(':user_id' => "${user_id}");
+        // 論理削除
+        // $sql1 = "UPDATE user SET delete_flg = 1 WHERE user_id = :user_id";
+        // $sql2 = "UPDATE favorite SET delete_flg = 1 WHERE user_id = :user_id";
+        // 抹消
+        $sql1 = "DELETE FROM user WHERE user_id = :user_id";
+        $sql2 = "DELETE FROM favorite WHERE user_id = :user_id";
+        $data1 = array(':user_id' => $user_id);
+        $data2 = array(':user_id' => $user_id);
         $stmt1 = queryPost($dbh, $sql1, $data1);
         $stmt2 = queryPost($dbh, $sql2, $data2);
 
