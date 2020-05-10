@@ -1256,6 +1256,24 @@ Play the previous track in the current users's queue.<br>
 * **boolean** Whether the track was successfully skipped.
 
 ---
+### queue
+
+
+```php
+SpotifyWebAPI::queue($trackUri, $deviceId)
+```
+
+Add a song to the queue.<br>
+[https://developer.spotify.com/documentation/web-api/reference/player/add-to-queue/](https://developer.spotify.com/documentation/web-api/reference/player/add-to-queue/)
+
+#### Arguments
+* `$trackUri` **string** - Required. The uri of the item to add to the queue. Must be a track or an episode uri.
+* `$deviceId` **string** - Optional. ID of the device to target.
+
+#### Return values
+* **boolean** Whether the track was successfully queued.
+
+---
 ### reorderPlaylistTracks
 
 
