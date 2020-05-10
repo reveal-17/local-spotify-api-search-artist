@@ -260,6 +260,19 @@ function getUserName($user_id) {
     }
 }
 
+function getUserImage($user_id) {
+    try {
+        $dbh = dbConnect();
+        $sql = "SELECT image_url FROM user WHERE user_id = :user_id";
+        $data = array(":user_id" => "${user_id}");
+        $stmt = queryPost($dbh, $sql, $data);
+        $userImageData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $userImageData;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
 //    =================================バリデーションチェック==================================
 $error_msg = array();
 

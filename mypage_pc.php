@@ -44,6 +44,9 @@ $userReviewData = getUserReview($user_id);
 // ユーザー名取得
 $userNameData = getUserName($user_id);
 
+// ユーザー画像取得
+$userImageData = getUserImage($user_id);
+
 ?>
 
 <html>
@@ -61,7 +64,11 @@ $userNameData = getUserName($user_id);
                         <!-- TODO: マイページの画像変更する -->
                         <a href="change_info_pc.php">
                             <el-tooltip content="画像を変更する" placement="top">
+                                <?php if ($userImageData[0]['image_url']) : ?>
+                                <el-avatar :size="50" :src="circleUrl"></el-avatar>
+                                <?php else : ?>
                                 <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
+                                <?php endif; ?>
                             </el-tooltip>
                         </a>
                         <el-tooltip content="名前を変更する" placement="bottom">
@@ -138,6 +145,7 @@ $userNameData = getUserName($user_id);
             el: "#app",
             data: {
                 circleUrlDefault: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+                circleUrl: "<?php echo $userImageData[0]['image_url']; ?>"
             },
         });
         </script>
