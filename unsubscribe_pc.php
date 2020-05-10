@@ -12,6 +12,7 @@ $user_id = $_SESSION['user_id'];
 
 if ($_POST['unsubscribe_submit'] === "") {
     try {
+        global $user_id;
         $dbh = dbConnect();
         // 論理削除 1ではなくfalseでやってみる
         // $sql1 = "UPDATE user SET delete_flg = 1 WHERE user_id = :user_id";

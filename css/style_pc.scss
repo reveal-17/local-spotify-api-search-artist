@@ -362,12 +362,23 @@ a {
 
 .songsSearch__mypage {
     margin-top: 50px;
+    position: relative;
+
     .songsSearch__boxCard {
         width: 70%;
         margin: auto;
 
         .el-card__body {
             text-align: center;
+        }
+    }
+
+    .songsSearch__changeName {
+        width: 50px;
+        margin: 10px auto 0;
+
+        a {
+            color: #000;
         }
     }
 

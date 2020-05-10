@@ -367,6 +367,7 @@ a {
 
 .songsSearch__mypage {
   margin-top: 50px;
+  position: relative;
 }
 
 .songsSearch__mypage .songsSearch__boxCard {
@@ -376,6 +377,15 @@ a {
 
 .songsSearch__mypage .songsSearch__boxCard .el-card__body {
   text-align: center;
+}
+
+.songsSearch__mypage .songsSearch__changeName {
+  width: 50px;
+  margin: 10px auto 0;
+}
+
+.songsSearch__mypage .songsSearch__changeName a {
+  color: #000;
 }
 
 .songsSearch__mypage .songsSearch__tab {
