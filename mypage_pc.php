@@ -59,12 +59,18 @@ $userNameData = getUserName($user_id);
                 <div class="songsSearch__mypage">
                     <el-card class="songsSearch__boxCard box-card">
                         <!-- TODO: マイページの画像変更する -->
-                        <el-tooltip content="画像を変更する" placement="top">
-                            <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
+                        <a href="change_info_pc.php">
+                            <el-tooltip content="画像を変更する" placement="top">
+                                <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
+                            </el-tooltip>
+                        </a>
+                        <el-tooltip content="名前を変更する" placement="bottom">
+                            <p class="songsSearch__changeName">
+                                <a href="change_info_pc.php">
+                                    <?php echo $userNameData[0]['user_name']; ?>
+                                </a>
+                            </p>
                         </el-tooltip>
-                        <p>
-                            <?php echo $userNameData[0]['user_name']; ?>
-                        </p>
                     </el-card>
 
                     <div class="songsSearch__tab">
