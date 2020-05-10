@@ -44,6 +44,9 @@ $userReviewData = getUserReview($user_id);
 // ユーザー名取得
 $userNameData = getUserName($user_id);
 
+// ユーザー画像取得
+$userImageData = getUserImage($user_id);
+
 ?>
 
 <html>
@@ -59,12 +62,22 @@ $userNameData = getUserName($user_id);
                 <div class="songsSearch__mypage">
                     <el-card class="songsSearch__boxCard box-card">
                         <!-- TODO: マイページの画像変更する -->
-                        <el-tooltip content="画像を変更する" placement="top">
-                            <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
+                        <a href="change_info_pc.php">
+                            <el-tooltip content="画像を変更する" placement="top">
+                                <?php if ($userImageData[0]['image_url']) : ?>
+                                <el-avatar :size="50" :src="circleUrl"></el-avatar>
+                                <?php else : ?>
+                                <el-avatar :size="50" :src="circleUrlDefault"></el-avatar>
+                                <?php endif; ?>
+                            </el-tooltip>
+                        </a>
+                        <el-tooltip content="名前を変更する" placement="bottom">
+                            <p class="songsSearch__changeName">
+                                <a href="change_info_pc.php">
+                                    <?php echo $userNameData[0]['user_name']; ?>
+                                </a>
+                            </p>
                         </el-tooltip>
-                        <p>
-                            <?php echo $userNameData[0]['user_name']; ?>
-                        </p>
                     </el-card>
 
                     <div class="songsSearch__tab">
@@ -132,6 +145,7 @@ $userNameData = getUserName($user_id);
             el: "#app",
             data: {
                 circleUrlDefault: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+                circleUrl: "<?php echo $userImageData[0]['image_url']; ?>"
             },
         });
         </script>
